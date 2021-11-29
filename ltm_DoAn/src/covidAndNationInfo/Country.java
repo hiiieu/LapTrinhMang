@@ -3,9 +3,12 @@ package covidAndNationInfo;
 import java.io.Serializable;
 import java.util.List;
 
-public class Country {
+public class Country implements Serializable{
+		
+		private static final long serialVersionUID = 2L;
+	
+	
 		private int id;
-
 		private String tenQuocGia;
 		private int danSo;
 		private float dienTich;
@@ -20,7 +23,8 @@ public class Country {
 		private String toaDo;
 		
 
-
+		public Country() {}
+		
 		public Country(int id,String tenQuocGia, int danSo, float dienTich, String tienTe, String thuDo, String chauLuc,
 				String ngonNgu, String muiGio, String tiepGiap, String quocKy, String cca3, String toaDo) {
 			super();

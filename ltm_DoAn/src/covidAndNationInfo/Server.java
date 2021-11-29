@@ -17,10 +17,11 @@ public class Server {
 	private ServerSocket server=null;
 	BufferedReader in=null;
 	BufferedWriter out=null;
-	ObjectOutputStream out_obj=null;
-	static String publicKey="";//làm típ phần này
+	ObjectOutputStream outObj=null;
 	static String clientKey="";
-	static String privateKey="";
+	
+	MaHoaDoiXung aes = new MaHoaDoiXung();
+	MaHoaCongKhai rsa = new MaHoaCongKhai();
 	
 	public Server(int port) {
 			try {
@@ -33,28 +34,53 @@ public class Server {
 				System.out.println("client đã kết nối");
 				in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-				out_obj = new ObjectOutputStream(socket.getOutputStream());
+				outObj = new ObjectOutputStream(socket.getOutputStream());
 				
 				/*Thiết lập mã hóa*/
 				//1. gửi public key tới client
-				out.write(publicKey);
+				out.write(rsa.getPublicKey());
 				out.newLine();
 				out.flush();
 				//2. nhận key đối xứng
 				String clientKeyEncode = in.readLine();
 				//3. giải mã key để nhận clientKey
-				clientKey =  DecodeClientKey(clientKeyEncode);
+				clientKey =  rsa.decryption(clientKeyEncode);
+				aes.setKey(clientKey);
+				
+				
 				
 				/*chọn chức năng*/
-				String choose = receiveStringFromClient(in);
+				String choose = receiveFromClient(in);
 				if (choose.equals("covid")) {
 						//viết covid (class covid)
 				}
 				
 				if (choose.equals("nation")) {
-						//viết quốc gia (class nation)
+						//quốc gia (class nation)
+						//gửi danh sách quốc gia về client để đổ vào combobox
+						ListCountry lstCountry = new ListCountry();
+						sendToClient(out, lstCountry.getListName());//trả về dãy string ngăn cách bởi dấu ,
+						//gửi danh sách thành phố
+						/*
+								tạo thêm đối tượng city trong country làm típ
+						*/
 						//idInfo theo quy định: quốc gia = n+stt ,  thành phố = c+stt
-						String idInfo = receiveStringFromClient(in);
+						String idInfo = receiveFromClient(in);
+						Country country = new Country();
+						if (idInfo.matches("^n\\d+$")) {
+								//lấy thông tin quốc gia
+								int id = Integer.parseInt( idInfo.replace("n", "") );
+								country = lstCountry.getCountryById(id);
+								//gửi thông tin 
+								sendToClient(outObj, country);
+						}
+						if (idInfo.matches("^c\\d+$")) {
+								//lấy thông tin thành phố
+								int id = Integer.parseInt( idInfo.replace("c", "") );
+								country = lstCountry.getCountryById(id);
+								//gửi thông tin 
+								sendToClient(outObj, country.getCityById() );
+						}
 						
 				}
 				
@@ -69,9 +95,9 @@ public class Server {
 			}
 			System.out.print("đóng kết nối");
 	}
-	public void sendStringToClient(BufferedWriter out,String data) {
+	public void sendToClient(BufferedWriter out,String data) {
 			try {
-				data = encodeData(data);//mã hóa
+				data = aes.encryption(data);//mã hóa
 				out.write(data);
 				out.newLine();
 				out.flush();
@@ -79,28 +105,24 @@ public class Server {
 				e.printStackTrace();
 			}
 	}
-	public String receiveStringFromClient(BufferedReader in) {
+	public void sendToClient(ObjectOutputStream outObj,Object obj) {
+			try {
+				obj = aes.encryption(obj);//mã hóa
+				outObj.writeObject(obj);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+	}
+	public String receiveFromClient(BufferedReader in) {
 			try {
 				String data = in.readLine();
-				data = decodeData(data);//giải mã
+				data = aes.decryption(data);//giải mã
 				return data;
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			return "";
 	}
-	public String DecodeClientKey(String clientKeyEncode) {
-		//viết thêm giải mã vô đây(giải mã = public key)
-		return "";
-}
-	public String encodeData(String data) {
-			//viết thêm mã hóa vô đây
-			return "";
-	}
-	public String decodeData(String data) {
-			//viết thêm giải mã vô đây
-			return "";
-}
 	public static void main(String[] args) {
 		Server ser=new Server(6000);
 	}

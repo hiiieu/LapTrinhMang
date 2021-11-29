@@ -19,7 +19,7 @@ import org.json.JSONObject;
 public class ListCountry {
 		public static ArrayList<Country> lstCounty= new ArrayList<Country>();
 		//lấy json đổ dữ liệu vào lstCountry
-		public static void getLstQuocGia() {
+		public  void getLstQuocGia() {
 				String apiQuocGia="https://restcountries.com/v3.1/all";
 				JSONArray jsonLstQuocGia = new JSONArray(getJson(apiQuocGia));
 				int id=-1;
@@ -114,19 +114,22 @@ public class ListCountry {
 				convert_all_cca3_CountryName();
 		}
 		//trả về danh sách tên quốc gia để đổ vào combobox
-		public static String  getListName(){
+		public String  getListName(){
 			//chưa viết 
 				return null;
 		}
+		public Country getCountryById(int id) {
+				return lstCounty.get(id);
+		}
 		//đổi hết mã cca3 trong tiếp giáp thành tên quốc gia
-		public static void convert_all_cca3_CountryName() {
+		public void convert_all_cca3_CountryName() {
 				for (Country i : lstCounty) {
 						String cca3 = i.getTiepGiap();
 						i.setTiepGiap(getListNameBorders(cca3));
 				}
 		}
 		//hỗ trợ cho convert_all_cca3_CountryName()
-		public static String getListNameBorders(String listcca3) {
+		public String getListNameBorders(String listcca3) {
 				String listName="";
 				StringTokenizer st = new StringTokenizer(listcca3,",");
 				while ( st.hasMoreTokens() ) {
@@ -136,7 +139,7 @@ public class ListCountry {
 				return listName;
 		}
 		//hỗ trợ cho getListNameBorders(String listcca3)
-		public static String getNameby_cca3(String cca3) {
+		public String getNameby_cca3(String cca3) {
 				for (Country i: lstCounty) {
 						if(i.getCca3().equals(cca3))
 							return i.getTenQuocGia();
@@ -144,7 +147,8 @@ public class ListCountry {
 				return "";
 		}
 		public static void main(String[] args) {
-			getLstQuocGia();
+			ListCountry ls= new ListCountry();
+			ls.getLstQuocGia();
 			for (Country i : lstCounty) {
 				System.out.println(i.getTenQuocGia()+",id: "+i.getId()+"\nthu do: "+i.getThuDo()+"\ndan so: "+i.getDanSo()+"\ndien tich: "
 						+i.getDienTich() +"\nchau luc: "+i.getChauLuc()+"\nmui gio: "+i.getMuiGio()+"\nngon ngu: "+i.getNgonNgu()
@@ -153,7 +157,7 @@ public class ListCountry {
 			}
 			System.out.println("số lượng quốc gia: "+lstCounty.size());
 		}
-		public static String getJson(String s) {
+		public String getJson(String s) {
 			  String sURL = s; //just a string
 	
 			    // Connect to the URL using java's native library
