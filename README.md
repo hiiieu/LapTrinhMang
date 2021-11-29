@@ -16,3 +16,5 @@ Khi nhấn vào thông tin quốc gia: client sẽ gửi chuỗi "nation" tới 
 
 Khi nhấn vào thông tin covid : client sẽ gửi chuỗi "covid" tới server
 đồng thời client mở giao diện tra thông tin covid
+
+trong quá trình làm đổi, thêm class thoải mái
