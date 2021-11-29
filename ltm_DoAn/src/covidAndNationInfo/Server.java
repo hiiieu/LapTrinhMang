@@ -88,6 +88,7 @@ public class Server {
 				//xong hết rồi đóng hết để giải phóng tài nguyên
 				in.close();
 				out.close();
+				outObj.close();
 				socket.close();
 				server.close();
 			} catch (IOException e) {
