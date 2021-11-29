@@ -1,3 +1,4 @@
 #loại trừ tất cả foder tên obj, bin vì có debug
-**/obj
-**/bin
+.metadata
+bin/
+tmp/
