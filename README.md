@@ -14,5 +14,5 @@ giao diện chính gồm 2 button
 Khi nhấn vào thông tin quốc gia: client sẽ gửi chuỗi "nation" tới server
 đồng thời client mở giao diện tra thông tin quốc gia
 
-Khi nhấn vào thông tin quốc gia: client sẽ gửi chuỗi "covid" tới server
+Khi nhấn vào thông tin covid : client sẽ gửi chuỗi "covid" tới server
 đồng thời client mở giao diện tra thông tin covid
