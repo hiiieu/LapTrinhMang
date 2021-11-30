@@ -1,4 +1,4 @@
-# LapTrinhMang
+# Làm ơn đọc dùm
 thông tin covid và quốc gia
 
 trong quá trình làm đổi, thêm class thoải mái
