@@ -57,10 +57,13 @@ public class Server {
 							
 							
 							/*chọn chức năng*/
-							Transport transport = new Transport(aes);
+							Transport transport = new Transport(aes);//truyền aes để thực hiện mã và giải
 							do {
 									String choose = transport.receive(in);
-									if(choose.equals("Menuclose")) break;
+									if(choose.equals("Menuclose")) {
+											System.out.println("client đã thoát");
+											break;
+									}
 									if (choose.equals("covid")) {
 											transport.send(out, "bạn đã chọn tra cứu thông tin covid");
 											//viết covid (class covid)

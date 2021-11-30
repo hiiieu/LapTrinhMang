@@ -10,6 +10,7 @@ public class Transport {
 		MaHoaDoiXung aes = null;
 		
 		public Transport() {}
+
 		public Transport(MaHoaDoiXung aes) {
 				this.aes = aes;
 		}
@@ -40,4 +41,16 @@ public class Transport {
 						return "";
 				}
 		}
+		public Object receive(ObjectInputStream inObj) {
+			try {
+				Object obj= inObj.readObject();
+				//obj = aes.decrypt(obj);//giải mã
+				return obj;
+			} catch (IOException e) {
+					e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+			}
+			return null;
+	}
 }

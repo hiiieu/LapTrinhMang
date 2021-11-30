@@ -19,55 +19,17 @@ public class MaHoaDoiXung {
 			private SecretKey key;
 		    private int KEY_SIZE = 256;
 		    private int T_LEN = 128;
-		    private byte[] IV;
-		    	
-		    public static void main(String[] args) {
-		        try {
-		            MaHoaDoiXung aes= new MaHoaDoiXung();
-		            //aes.init();
-		            aes.initFromStrings("CHuO1Fjd8YgJqTyapibFBQ==","e3IYYJC2hxe24/EO");
-		            String encryptedMessage = aes.encrypt("TheXCoders_2");
-		            String decryptedMessage = aes.decrypt(encryptedMessage);
-
-		            System.err.println("Encrypted Message : " + encryptedMessage);
-		            System.err.println("Decrypted Message : " + decryptedMessage);
-		            aes.exportKeys();
-		        } catch (Exception ignored) {
-		        }
-		    }
+		    private byte[] IV;//1 phần của key gửi đi (lúc gửi, gửi nó di chung key)
 		    
-		    public void init(){
-		        KeyGenerator generator;
-				try {
-					generator = KeyGenerator.getInstance("AES");
-					generator.init(KEY_SIZE);
-			        key = generator.generateKey();
-			        IV = decode("e3IYYJC2hxe24/EO");
-				} catch (NoSuchAlgorithmException e) {
-					e.printStackTrace();
-				}
-		        
-		    }
-		
 		    public void initFromStrings(String secretKey, String IV){
 		        key = new SecretKeySpec(decode(secretKey),"AES");
 		        this.IV = decode(IV);
 		    }
 		
-		    public String encryptOld(String message) throws Exception {
-		        byte[] messageInBytes = message.getBytes();
-		        Cipher encryptionCipher = Cipher.getInstance("AES/GCM/NoPadding");
-		        encryptionCipher.init(Cipher.ENCRYPT_MODE, key);
-		        IV = encryptionCipher.getIV();
-		        byte[] encryptedBytes = encryptionCipher.doFinal(messageInBytes);
-		        return encode(encryptedBytes);
-		    }
-		
 		    public String encrypt(String message) {
-		        byte[] messageInBytes = message.getBytes();
-		        Cipher encryptionCipher;
 				try {
-					encryptionCipher = Cipher.getInstance("AES/GCM/NoPadding");
+			        byte[] messageInBytes = message.getBytes();
+			        Cipher encryptionCipher = Cipher.getInstance("AES/GCM/NoPadding");
 					GCMParameterSpec spec = new GCMParameterSpec(T_LEN,IV);
 				    encryptionCipher.init(Cipher.ENCRYPT_MODE, key,spec);
 				    byte[] encryptedBytes = encryptionCipher.doFinal(messageInBytes);
@@ -89,14 +51,15 @@ public class MaHoaDoiXung {
 		    }
 		
 		    public String decrypt(String encryptedMessage){
-		        byte[] messageInBytes = decode(encryptedMessage);
-		        Cipher decryptionCipher;
+		       
 				try {
-					decryptionCipher = Cipher.getInstance("AES/GCM/NoPadding");
+					byte[] messageInBytes = decode(encryptedMessage);
+				    Cipher decryptionCipher = Cipher.getInstance("AES/GCM/NoPadding");
 					GCMParameterSpec spec = new GCMParameterSpec(T_LEN, IV);
 			        decryptionCipher.init(Cipher.DECRYPT_MODE, key, spec);
 			        byte[] decryptedBytes = decryptionCipher.doFinal(messageInBytes);
 			        return new String(decryptedBytes);
+			        
 				} catch (NoSuchAlgorithmException e) {
 					e.printStackTrace();
 				} catch (NoSuchPaddingException e) {
@@ -114,21 +77,53 @@ public class MaHoaDoiXung {
 		    }
 		
 		    private String encode(byte[] data) {
-		        return Base64.getEncoder().encodeToString(data);
+		        	return Base64.getEncoder().encodeToString(data);
 		    }
 		
 		    private byte[] decode(String data) {
 		        return Base64.getDecoder().decode(data);
 		    }
-		
-		    private void exportKeys(){
-		        System.err.println("SecretKey : "+encode(key.getEncoded()));
-		        System.err.println("IV : "+encode(IV));
-		    }
+
 		    public String exportKey() {
 		    		return encode(key.getEncoded());
 		    }
 		    public String exportIV() {
 		    		return encode(IV);
 		    }
+//		    public String encryptOld(String message) throws Exception {
+//	        byte[] messageInBytes = message.getBytes();
+//	        Cipher encryptionCipher = Cipher.getInstance("AES/GCM/NoPadding");
+//	        encryptionCipher.init(Cipher.ENCRYPT_MODE, key);
+//	        IV = encryptionCipher.getIV();
+//	        byte[] encryptedBytes = encryptionCipher.doFinal(messageInBytes);
+//	        return encode(encryptedBytes);
+//	    }
+		    
+//		    public void init(){
+//	        KeyGenerator generator;
+//			try {
+//				generator = KeyGenerator.getInstance("AES");
+//				generator.init(KEY_SIZE);
+//		        key = generator.generateKey();
+//		        IV = decode("e3IYYJC2hxe24/EO");//IV tự tạo(xuất IV = exportIV rồi lấy xài luôn - chạy hàm main ở dưới cùng)
+//			} catch (NoSuchAlgorithmException e) {
+//				e.printStackTrace();
+//			}
+//	        
+//	    }
+		    
+//		    public static void main(String[] args) {
+//	        try {
+//	            MaHoaDoiXung aes= new MaHoaDoiXung();
+//	            //aes.init();
+//	            aes.initFromStrings("CHuO1Fjd8YgJqTyapibFBQ==","e3IYYJC2hxe24/EO");
+//	            String encryptedMessage = aes.encrypt("TheXCoders_2");
+//	            String decryptedMessage = aes.decrypt(encryptedMessage);
+//
+//	            System.err.println("Encrypted Message : " + encryptedMessage);
+//	            System.err.println("Decrypted Message : " + decryptedMessage);
+//	            System.err.println("IV: " + aes.exportIV() );
+//	        } catch (Exception ignored) {
+//	        }
+//	    }
 }
