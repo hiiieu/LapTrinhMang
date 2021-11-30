@@ -15,6 +15,7 @@ import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 public class MaHoaDoiXung {
+	
 			private SecretKey key;
 		    private int KEY_SIZE = 256;
 		    private int T_LEN = 128;
@@ -23,21 +24,29 @@ public class MaHoaDoiXung {
 		    public static void main(String[] args) {
 		        try {
 		            MaHoaDoiXung aes= new MaHoaDoiXung();
+		            //aes.init();
 		            aes.initFromStrings("CHuO1Fjd8YgJqTyapibFBQ==","e3IYYJC2hxe24/EO");
 		            String encryptedMessage = aes.encrypt("TheXCoders_2");
 		            String decryptedMessage = aes.decrypt(encryptedMessage);
 
 		            System.err.println("Encrypted Message : " + encryptedMessage);
 		            System.err.println("Decrypted Message : " + decryptedMessage);
-		            //aes.exportKeys();
+		            aes.exportKeys();
 		        } catch (Exception ignored) {
 		        }
 		    }
 		    
-		    public void init() throws Exception {
-		        KeyGenerator generator = KeyGenerator.getInstance("AES");
-		        generator.init(KEY_SIZE);
-		        key = generator.generateKey();
+		    public void init(){
+		        KeyGenerator generator;
+				try {
+					generator = KeyGenerator.getInstance("AES");
+					generator.init(KEY_SIZE);
+			        key = generator.generateKey();
+			        IV = decode("e3IYYJC2hxe24/EO");
+				} catch (NoSuchAlgorithmException e) {
+					e.printStackTrace();
+				}
+		        
 		    }
 		
 		    public void initFromStrings(String secretKey, String IV){
@@ -115,5 +124,11 @@ public class MaHoaDoiXung {
 		    private void exportKeys(){
 		        System.err.println("SecretKey : "+encode(key.getEncoded()));
 		        System.err.println("IV : "+encode(IV));
+		    }
+		    public String exportKey() {
+		    		return encode(key.getEncoded());
+		    }
+		    public String exportIV() {
+		    		return encode(IV);
 		    }
 }

@@ -9,6 +9,7 @@ import java.io.ObjectOutputStream;
 public class Transport {
 		MaHoaDoiXung aes = null;
 		
+		public Transport() {}
 		public Transport(MaHoaDoiXung aes) {
 				this.aes = aes;
 		}
@@ -33,11 +34,10 @@ public class Transport {
 		public String receive(BufferedReader in) {
 				try {
 					String data = in.readLine();
-					//data = aes.decryption(data);//giải mã
+					data = aes.decrypt(data);//giải mã
 					return data;
 				} catch (IOException e) {
-					e.printStackTrace();
+						return "";
 				}
-				return "";
 		}
 }

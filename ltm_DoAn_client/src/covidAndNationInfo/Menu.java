@@ -16,6 +16,8 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class Menu {
 
@@ -23,7 +25,7 @@ public class Menu {
 		BufferedReader in=null;
 		BufferedWriter out=null;
 		ObjectInputStream inObj=null;
-		Transport transport = new Transport();
+		Transport transport = null;
 		/**
 		 * Launch the application.
 		 */
@@ -43,11 +45,12 @@ public class Menu {
 		/**
 		 * Create the application.
 		 */
-		public Menu(BufferedReader in,BufferedWriter out,ObjectInputStream inObj) {
+		public Menu(BufferedReader in,BufferedWriter out,ObjectInputStream inObj,MaHoaDoiXung aes) {
 			initialize();
 			this.in=in;
 			this.out=out;
 			this.inObj=inObj;
+			transport = new Transport(aes);
 		}
 	
 		/**
@@ -55,6 +58,12 @@ public class Menu {
 		 */
 		private void initialize() {
 			frmTraCuThng = new JFrame();
+			frmTraCuThng.addWindowListener(new WindowAdapter() {
+				@Override
+				public void windowClosing(WindowEvent e) {
+						transport.send(out, "Menuclose");
+				}
+			});
 			frmTraCuThng.setTitle("Tra cứu thông tin");
 			frmTraCuThng.setResizable(false);
 			frmTraCuThng.setBounds(100, 100, 450, 300);
@@ -90,5 +99,6 @@ public class Menu {
 			btnCountry.setFont(new Font("Tahoma", Font.PLAIN, 24));
 			frmTraCuThng.getContentPane().add(btnCountry);
 		}
+		
 
 }

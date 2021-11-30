@@ -20,6 +20,9 @@ public class Client {
 		BufferedWriter out=null;
 		ObjectInputStream inObj=null;
 		
+		MaHoaCongKhai rsa = new MaHoaCongKhai();
+		MaHoaDoiXung aes = new MaHoaDoiXung();
+		
 		public Client(String address,int port) {
 				//tạo socket kết nối tới server
 				while (socket ==null) {
@@ -32,14 +35,28 @@ public class Client {
 						}
 				}
 				
-				
 				try {
-					
 					in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 					out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 					inObj = new ObjectInputStream(socket.getInputStream());
+					
+					/*thiết lập mã hóa */
+					//nhận public key
+					String publicKey = in.readLine();
+					if(!publicKey.equals(MaHoaCongKhai.getPublicKeyString())) {
+							JOptionPane.showConfirmDialog(null, "public key của server không khớp", "Be not ok!", JOptionPane.DEFAULT_OPTION);
+							System.exit(0);
+					}
+					//mã hóa secretKey và gửi lại server
+					aes.init();//tạo secretKey
+					String key = aes.exportKey();String IV = aes.exportIV();
+					String Skey = rsa.encrypt( key );
+					String SIV = rsa.encrypt( IV );
+					out.write(Skey);out.newLine();out.flush();
+					out.write(SIV);out.newLine();out.flush();
+					
 					//kết nối xong thì show menu
-					Menu window = new Menu(in,out,inObj);
+					Menu window = new Menu(in,out,inObj,aes);
 					window.frmTraCuThng.setVisible(true);
 					//thiết lập mã hóa với server
 					

@@ -62,7 +62,9 @@ public class MaHoaCongKhai {
 	            privateKey = keyFactory.generatePrivate(keySpecPrivate);
 	        }catch (Exception ignored){}
 		}
-		public MaHoaCongKhai() {}
+		public MaHoaCongKhai() {
+				initKeyFromString();
+		}
 		
 		private static String encode(byte[] data) {
 	        return Base64.getEncoder().encodeToString(data);
