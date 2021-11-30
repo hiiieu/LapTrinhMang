@@ -1,6 +1,7 @@
 package covidAndNationInfo;
 
 public class CovidInfo {
-	test;
+	//test;
+	//lấy acc khoa test
 		
 }
