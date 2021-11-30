@@ -19,7 +19,6 @@ public class Server {
 	BufferedWriter out=null;
 	ObjectOutputStream outObj=null;
 	static String clientKey="";
-	Transport transport = new Transport();
 	
 	public Server(int port) {
 			try {
@@ -34,20 +33,24 @@ public class Server {
 				out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 				outObj = new ObjectOutputStream(socket.getOutputStream());
 				
-//				/*Thiết lập mã hóa*/
-//				//1. gửi public key tới client
-//				out.write(rsa.getPublicKey());
-//				out.newLine();
-//				out.flush();
-//				//2. nhận key đối xứng
-//				String clientKeyEncode = in.readLine();
-//				//3. giải mã key để nhận clientKey
-//				clientKey =  rsa.decryption(clientKeyEncode);
-//				aes.setKey(clientKey);
+				/*Thiết lập mã hóa*/
+				MaHoaDoiXung aes = new MaHoaDoiXung();
+				MaHoaCongKhai rsa = new MaHoaCongKhai();
+				//1. gửi public key tới client
+				out.write(MaHoaCongKhai.getPublicKeyString());
+				out.newLine();
+				out.flush();
+				//2. nhận key đối xứng và iv
+				String clientKeyString_encode = in.readLine();
+				String iv = in.readLine();
+				//3. giải mã key để nhận clientKey
+				String clientKetString=  rsa.decrypt(clientKeyString_encode);
+				aes.initFromStrings(clientKetString, iv);
 				
 				
 				
 				/*chọn chức năng*/
+				Transport transport = new Transport(aes);
 				String choose = transport.receive(in);
 				if (choose.equals("covid")) {
 						transport.send(out, "bạn đã chọn tra cứu covid");

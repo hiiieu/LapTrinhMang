@@ -7,12 +7,14 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 public class Transport {
-		MaHoaDoiXung aes = new MaHoaDoiXung();
-		MaHoaCongKhai rsa = new MaHoaCongKhai();
-		public Transport() {}
+		MaHoaDoiXung aes = null;
+		
+		public Transport(MaHoaDoiXung aes) {
+				this.aes = aes;
+		}
 		public void send(BufferedWriter out,String data) {
 			try {
-				//data = aes.encryption(data);//mã hóa
+				data = aes.encrypt(data);//mã hóa
 				out.write(data);
 				out.newLine();
 				out.flush();
@@ -22,7 +24,7 @@ public class Transport {
 		}
 		public void send(ObjectOutputStream outObj,Object obj) {
 				try {
-					obj = aes.encryption(obj);//mã hóa
+					//obj = aes.encrypt(obj);//mã hóa
 					outObj.writeObject(obj);
 				} catch (IOException e) {
 					e.printStackTrace();
