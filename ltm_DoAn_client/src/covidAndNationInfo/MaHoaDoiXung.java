@@ -19,7 +19,7 @@ public class MaHoaDoiXung {
 			private SecretKey key;
 		    private int KEY_SIZE = 256;
 		    private int T_LEN = 128;
-		    private byte[] IV;//1 phần của key gửi đi 
+		    private byte[] IV;//1 phần của key gửi đi (lúc gửi, gửi nó di chung key)
 		    	
 		    public void init(){
 		        KeyGenerator generator;
