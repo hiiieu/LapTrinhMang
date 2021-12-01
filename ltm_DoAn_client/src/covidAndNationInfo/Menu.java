@@ -15,8 +15,10 @@ import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -28,6 +30,7 @@ public class Menu {
 		BufferedWriter out=null;
 		Transport transport = null;
 		Socket socket;
+		InputStream InObj=null;
 		/**
 		 * Launch the application.
 		 */
@@ -47,9 +50,9 @@ public class Menu {
 		/**
 		 * Create the application.
 		 */
-		public Menu(Socket socket,BufferedReader in,BufferedWriter out,MaHoaDoiXung aes) {
+		public Menu(InputStream InObj,BufferedReader in,BufferedWriter out,MaHoaDoiXung aes) {
 			initialize();
-			this.socket=socket;
+			this.InObj=InObj;
 			this.in=in;
 			this.out=out;
 			transport = new Transport(aes);
@@ -63,15 +66,15 @@ public class Menu {
 			frmTraCuThng.addWindowListener(new WindowAdapter() {
 				@Override
 				public void windowClosing(WindowEvent e) {
+					transport.send(out, "Menuclose");
 						try {
 							in.close();
 							out.close();
-							socket.close();
+							InObj.close();
 						} catch (IOException e1) {
 							e1.printStackTrace();
 						}
 						
-						transport.send(out, "Menuclose");
 				}
 			});
 			frmTraCuThng.setTitle("Tra cứu thông tin");
@@ -104,12 +107,8 @@ public class Menu {
 						transport.send(out, "nation");
 						//String kq=transport.receive(in);
 						SinhVien sv;
-						try {
-							sv = (SinhVien)transport.receive(socket.getInputStream());
+							sv = (SinhVien)transport.receive(InObj);
 							JOptionPane.showConfirmDialog(null, sv.getLop() + sv.getTen(), "Be ok!", JOptionPane.DEFAULT_OPTION);
-						} catch (IOException e1) {
-							e1.printStackTrace();
-						}//chưa nhận dc
 						
 				}
 			});

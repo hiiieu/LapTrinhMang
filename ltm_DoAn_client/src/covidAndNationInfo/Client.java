@@ -58,7 +58,7 @@ public class Client {
 							out.write(SIV);out.newLine();out.flush();
 							
 							//kết nối xong thì show menu
-							Menu window = new Menu(socket,in,out,aes);
+							Menu window = new Menu(input,in,out,aes);
 							window.frmTraCuThng.setVisible(true);
 							
 							
