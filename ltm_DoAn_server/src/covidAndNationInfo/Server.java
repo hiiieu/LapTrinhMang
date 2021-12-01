@@ -17,7 +17,8 @@ public class Server {
 	private ServerSocket server=null;
 	BufferedReader in=null;
 	BufferedWriter out=null;
-	ObjectOutputStream outObj=null;
+	ObjectInputStream inObj=null;
+	ObjectOutputStream outObj = null;
 	static String clientKey="";
 	
 	public Server(int port) {
@@ -38,6 +39,7 @@ public class Server {
 								in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 								out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 								outObj = new ObjectOutputStream(socket.getOutputStream());
+								inObj = new ObjectInputStream(socket.getInputStream());
 								
 								/*Thiết lập mã hóa*/
 								MaHoaDoiXung aes = new MaHoaDoiXung();
@@ -70,7 +72,9 @@ public class Server {
 										}
 										
 										if (choose.equals("nation")) {
-												transport.send(out, "bạn đã chọn tra cứu thông tin quốc gia");
+												//transport.send(out, "bạn đã chọn tra cứu thông tin quốc gia");
+												SinhVien sv = new SinhVien("hieu", 10);
+												transport.send(outObj, sv);
 						//						//quốc gia (class nation)
 						//						//gửi danh sách quốc gia về client để đổ vào combobox
 						//						ListCountry lstCountry = new ListCountry();
@@ -98,12 +102,13 @@ public class Server {
 						//						}
 												
 										}
+										//Thread.sleep(5000);
 								}while(true);
 								socket.close();
 	
 							} catch (IOException e) {
 								System.err.print("client đã ngắt kết nối.");
-							}						
+							}
 				}
 				//xong hết rồi đóng hết để giải phóng tài nguyên
 				try {

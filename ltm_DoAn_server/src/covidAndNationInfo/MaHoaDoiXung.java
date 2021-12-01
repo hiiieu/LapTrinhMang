@@ -47,9 +47,8 @@ public class MaHoaDoiXung {
 		    public ObjectInputStream createDecrypt(ObjectInputStream inObj){
 			       
 				try {
-				    Cipher decryptionCipher = Cipher.getInstance("AES/GCM/NoPadding");
-					GCMParameterSpec spec = new GCMParameterSpec(T_LEN, IV);
-			        decryptionCipher.init(Cipher.DECRYPT_MODE, key, spec);
+					Cipher decryptionCipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+			        decryptionCipher.init(Cipher.DECRYPT_MODE, key);
 			        CipherInputStream ciperIn = new CipherInputStream(inObj, decryptionCipher);
 			        return new ObjectInputStream(ciperIn);
 				} catch (NoSuchAlgorithmException e) {
@@ -58,9 +57,7 @@ public class MaHoaDoiXung {
 					e.printStackTrace();
 			    }catch (InvalidKeyException e) {
 					e.printStackTrace();
-				} catch (InvalidAlgorithmParameterException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
+			    }catch (IOException e) {
 					e.printStackTrace();
 				}
 		        return null;
@@ -68,9 +65,8 @@ public class MaHoaDoiXung {
 		    
 		    public  ObjectOutputStream createEncrypt(ObjectOutputStream outObj) {
 				    try {
-					    	Cipher encryptionCipher = Cipher.getInstance("AES/GCM/NoPadding");
-							GCMParameterSpec spec = new GCMParameterSpec(T_LEN,IV);
-						    encryptionCipher.init(Cipher.ENCRYPT_MODE, key,spec);
+					    	Cipher encryptionCipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+						    encryptionCipher.init(Cipher.ENCRYPT_MODE, key);
 				    		CipherOutputStream ciperOut = new CipherOutputStream(outObj, encryptionCipher);
 				    		return new ObjectOutputStream(ciperOut);
 				    } catch (NoSuchAlgorithmException e) {
@@ -79,9 +75,7 @@ public class MaHoaDoiXung {
 						e.printStackTrace();
 					} catch (InvalidKeyException e) {
 						e.printStackTrace();
-					} catch (InvalidAlgorithmParameterException e) {
-						e.printStackTrace();
-				    } catch (IOException e) {
+					}catch (IOException e) {
 						e.printStackTrace();
 					}
 				      	return null;

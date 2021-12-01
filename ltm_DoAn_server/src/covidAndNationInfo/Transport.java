@@ -47,10 +47,12 @@ public class Transport {
 		public Object receive(ObjectInputStream inObj) {
 			try {
 				inObj = aes.createDecrypt(inObj);
-				Object obj = inObj.read();
+				Object obj = inObj.readObject();
 				return obj;
 			} catch (IOException e) {
 					e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
 			}
 			return null;
 	}
