@@ -28,11 +28,10 @@ public class Transport {
 				e.printStackTrace();
 			}
 		}
-		public void send(OutputStream outObj,Object obj) {
+		public void send(OutputStream outObj,SinhVien obj) {
 				try {
-					ObjectOutputStream objOut = new ObjectOutputStream(outObj);//không mã hóa
-					//ObjectOutputStream objOut = aes.createEncrypt(outObj);//này mã hóa chưa làm dc 
-					objOut.writeObject(obj);
+					ObjectOutputStream objOut = new ObjectOutputStream(outObj);
+					objOut.writeObject(aes.sealObj(obj)); //seal là mã hóa 
 					//objOut.flush();
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -47,17 +46,4 @@ public class Transport {
 						return "";
 				}
 		}
-		public Object receive(InputStream inObj) {
-			try {
-				ObjectInputStream objIn = new ObjectInputStream(inObj);//không mã hóa
-				//ObjectInputStream objIn = aes.createDecrypt(inObj);//này mã hóa chưa làm dc 
-				Object obj = objIn.readObject();
-				return obj;
-			} catch (IOException e) {
-					e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			}
-			return null;
-	}
 }

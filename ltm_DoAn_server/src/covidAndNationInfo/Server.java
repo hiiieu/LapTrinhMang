@@ -19,6 +19,7 @@ public class Server {
 	private ServerSocket server=null;
 	BufferedReader in=null;
 	BufferedWriter out=null;
+	ObjectOutputStream outObj=null;
 	static String clientKey="";
 	
 	public Server(int port) {

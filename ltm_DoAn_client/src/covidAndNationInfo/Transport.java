@@ -9,6 +9,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 
 import javax.crypto.CipherOutputStream;
+import javax.crypto.SealedObject;
 
 public class Transport {
 		MaHoaDoiXung aes = null;
@@ -28,16 +29,6 @@ public class Transport {
 				e.printStackTrace();
 			}
 		}
-		public void send(OutputStream outObj,Object obj) {
-				try {
-					ObjectOutputStream objOut = new ObjectOutputStream(outObj);//không mã hóa
-					//ObjectOutputStream objOut = aes.createEncrypt(outObj);//này mã hóa chưa làm dc 
-					objOut.writeObject(obj);
-					//objOut.flush();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-		}
 		public String receive(BufferedReader in) {
 				try {
 					String data = in.readLine();
@@ -49,9 +40,9 @@ public class Transport {
 		}
 		public Object receive(InputStream inObj) {
 			try {
-				ObjectInputStream objIn = new ObjectInputStream(inObj);//không mã hóa
-				//ObjectInputStream objIn = aes.createDecrypt(inObj);//này mã hóa chưa làm dc 
+				ObjectInputStream objIn = new ObjectInputStream(inObj);
 				Object obj = objIn.readObject();
+				obj = aes.desealObj((SealedObject)obj);//deseal là giải mã
 				return obj;
 			} catch (IOException e) {
 					e.printStackTrace();

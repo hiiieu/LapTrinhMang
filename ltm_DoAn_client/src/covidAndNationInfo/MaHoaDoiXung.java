@@ -1,13 +1,16 @@
 package covidAndNationInfo;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.security.Security;
 import java.util.Base64;
 
 import javax.crypto.BadPaddingException;
@@ -17,6 +20,7 @@ import javax.crypto.CipherOutputStream;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SealedObject;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -45,43 +49,27 @@ public class MaHoaDoiXung {
 		        key = new SecretKeySpec(decode(secretKey),"AES");
 		        this.IV = decode(IV);
 		    }
-		    
-		    public ObjectInputStream createDecrypt(InputStream inObj){
-			       
+		    public SealedObject sealObj(Serializable obj) {
+			    	Cipher encryptionCipher;
+					try {
+						encryptionCipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+						encryptionCipher.init(Cipher.ENCRYPT_MODE, key);
+						return new SealedObject(obj, encryptionCipher);
+					} catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException |IOException e) {
+						e.printStackTrace();
+					}
+					return null;
+		    }
+		    public Object desealObj(SealedObject seal) {
 				try {
 					Cipher decryptionCipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
 			        decryptionCipher.init(Cipher.DECRYPT_MODE, key);
-			        CipherInputStream ciperIn = new CipherInputStream(inObj, decryptionCipher);
-			        return new ObjectInputStream(ciperIn);
-				} catch (NoSuchAlgorithmException e) {
-					e.printStackTrace();
-				} catch (NoSuchPaddingException e) {
-					e.printStackTrace();
-			    }catch (InvalidKeyException e) {
-					e.printStackTrace();
-			    }catch (IOException e) {
+					return seal.getObject(decryptionCipher);
+				} catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | IOException | ClassNotFoundException | BadPaddingException e) {
 					e.printStackTrace();
 				}
-		        return null;
+				return null;
 		    }
-		    
-		    public  ObjectOutputStream createEncrypt(OutputStream outObj) {
-				    try {
-				    		Cipher encryptionCipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
-						    encryptionCipher.init(Cipher.ENCRYPT_MODE, key);
-				    		CipherOutputStream ciperOut = new CipherOutputStream(outObj, encryptionCipher);
-				    		return new ObjectOutputStream(ciperOut);
-				    } catch (NoSuchAlgorithmException e) {
-						e.printStackTrace();
-					} catch (NoSuchPaddingException e) {
-						e.printStackTrace();
-					} catch (InvalidKeyException e) {
-						e.printStackTrace();
-					}catch (IOException e) {
-						e.printStackTrace();
-					} 
-				      	return null;
-				    }
 		    
 		    public String encrypt(String message) {
 				try {
@@ -91,19 +79,9 @@ public class MaHoaDoiXung {
 				    encryptionCipher.init(Cipher.ENCRYPT_MODE, key,spec);
 				    byte[] encryptedBytes = encryptionCipher.doFinal(messageInBytes);
 				    return encode(encryptedBytes);
-				} catch (NoSuchAlgorithmException e) {
+				} catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException e) {
 					e.printStackTrace();
-				} catch (NoSuchPaddingException e) {
-					e.printStackTrace();
-				} catch (InvalidKeyException e) {
-					e.printStackTrace();
-				} catch (InvalidAlgorithmParameterException e) {
-					e.printStackTrace();
-				} catch (IllegalBlockSizeException e) {
-					e.printStackTrace();
-				} catch (BadPaddingException e) {
-					e.printStackTrace();
-				}
+				} 
 				return "";
 		    }
 		
@@ -117,17 +95,7 @@ public class MaHoaDoiXung {
 			        byte[] decryptedBytes = decryptionCipher.doFinal(messageInBytes);
 			        return new String(decryptedBytes);
 			        
-				} catch (NoSuchAlgorithmException e) {
-					e.printStackTrace();
-				} catch (NoSuchPaddingException e) {
-					e.printStackTrace();
-				} catch (IllegalBlockSizeException e) {
-					e.printStackTrace();
-				} catch (BadPaddingException e) {
-					e.printStackTrace();
-				} catch (InvalidKeyException e) {
-					e.printStackTrace();
-				} catch (InvalidAlgorithmParameterException e) {
+				} catch (NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException | BadPaddingException | InvalidKeyException | InvalidAlgorithmParameterException e) {
 					e.printStackTrace();
 				}
 		        return "";
