@@ -1,5 +1,8 @@
 package covidAndNationInfo;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -7,6 +10,8 @@ import java.util.Base64;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
+import javax.crypto.CipherInputStream;
+import javax.crypto.CipherOutputStream;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
@@ -15,17 +20,73 @@ import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 public class MaHoaDoiXung {
-	
+			
 			private SecretKey key;
 		    private int KEY_SIZE = 256;
 		    private int T_LEN = 128;
 		    private byte[] IV;//1 phần của key gửi đi (lúc gửi, gửi nó di chung key)
-		    
+		    	
+		    public void init(){
+		        KeyGenerator generator;
+				try {
+					generator = KeyGenerator.getInstance("AES");
+					generator.init(KEY_SIZE);
+			        key = generator.generateKey();
+			        IV = decode("e3IYYJC2hxe24/EO");//IV tự tạo(xuất IV = exportIV rồi lấy xài luôn - chạy hàm main ở dưới cùng)
+				} catch (NoSuchAlgorithmException e) {
+					e.printStackTrace();
+				}
+		        
+		    }
+		
 		    public void initFromStrings(String secretKey, String IV){
 		        key = new SecretKeySpec(decode(secretKey),"AES");
 		        this.IV = decode(IV);
 		    }
-		
+		    
+		    public ObjectInputStream createDecrypt(ObjectInputStream inObj){
+			       
+				try {
+				    Cipher decryptionCipher = Cipher.getInstance("AES/GCM/NoPadding");
+					GCMParameterSpec spec = new GCMParameterSpec(T_LEN, IV);
+			        decryptionCipher.init(Cipher.DECRYPT_MODE, key, spec);
+			        CipherInputStream ciperIn = new CipherInputStream(inObj, decryptionCipher);
+			        return new ObjectInputStream(ciperIn);
+				} catch (NoSuchAlgorithmException e) {
+					e.printStackTrace();
+				} catch (NoSuchPaddingException e) {
+					e.printStackTrace();
+			    }catch (InvalidKeyException e) {
+					e.printStackTrace();
+				} catch (InvalidAlgorithmParameterException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+		        return null;
+		    }
+		    
+		    public  ObjectOutputStream createEncrypt(ObjectOutputStream outObj) {
+				    try {
+					    	Cipher encryptionCipher = Cipher.getInstance("AES/GCM/NoPadding");
+							GCMParameterSpec spec = new GCMParameterSpec(T_LEN,IV);
+						    encryptionCipher.init(Cipher.ENCRYPT_MODE, key,spec);
+				    		CipherOutputStream ciperOut = new CipherOutputStream(outObj, encryptionCipher);
+				    		return new ObjectOutputStream(ciperOut);
+				    } catch (NoSuchAlgorithmException e) {
+						e.printStackTrace();
+					} catch (NoSuchPaddingException e) {
+						e.printStackTrace();
+					} catch (InvalidKeyException e) {
+						e.printStackTrace();
+					} catch (InvalidAlgorithmParameterException e) {
+						e.printStackTrace();
+				    } catch (IOException e) {
+						e.printStackTrace();
+					}
+				      	return null;
+				    }
+		    
 		    public String encrypt(String message) {
 				try {
 			        byte[] messageInBytes = message.getBytes();
@@ -90,27 +151,6 @@ public class MaHoaDoiXung {
 		    public String exportIV() {
 		    		return encode(IV);
 		    }
-//		    public String encryptOld(String message) throws Exception {
-//	        byte[] messageInBytes = message.getBytes();
-//	        Cipher encryptionCipher = Cipher.getInstance("AES/GCM/NoPadding");
-//	        encryptionCipher.init(Cipher.ENCRYPT_MODE, key);
-//	        IV = encryptionCipher.getIV();
-//	        byte[] encryptedBytes = encryptionCipher.doFinal(messageInBytes);
-//	        return encode(encryptedBytes);
-//	    }
-		    
-//		    public void init(){
-//	        KeyGenerator generator;
-//			try {
-//				generator = KeyGenerator.getInstance("AES");
-//				generator.init(KEY_SIZE);
-//		        key = generator.generateKey();
-//		        IV = decode("e3IYYJC2hxe24/EO");//IV tự tạo(xuất IV = exportIV rồi lấy xài luôn - chạy hàm main ở dưới cùng)
-//			} catch (NoSuchAlgorithmException e) {
-//				e.printStackTrace();
-//			}
-//	        
-//	    }
 		    
 //		    public static void main(String[] args) {
 //	        try {

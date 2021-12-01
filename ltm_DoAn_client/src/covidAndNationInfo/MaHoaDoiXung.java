@@ -1,5 +1,8 @@
 package covidAndNationInfo;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -7,6 +10,8 @@ import java.util.Base64;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
+import javax.crypto.CipherInputStream;
+import javax.crypto.CipherOutputStream;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
@@ -38,7 +43,50 @@ public class MaHoaDoiXung {
 		        key = new SecretKeySpec(decode(secretKey),"AES");
 		        this.IV = decode(IV);
 		    }
-		
+		    
+		    public ObjectInputStream createDecrypt(ObjectInputStream inObj){
+			       
+				try {
+				    Cipher decryptionCipher = Cipher.getInstance("AES/GCM/NoPadding");
+					GCMParameterSpec spec = new GCMParameterSpec(T_LEN, IV);
+			        decryptionCipher.init(Cipher.DECRYPT_MODE, key, spec);
+			        CipherInputStream ciperIn = new CipherInputStream(inObj, decryptionCipher);
+			        return new ObjectInputStream(ciperIn);
+				} catch (NoSuchAlgorithmException e) {
+					e.printStackTrace();
+				} catch (NoSuchPaddingException e) {
+					e.printStackTrace();
+			    }catch (InvalidKeyException e) {
+					e.printStackTrace();
+				} catch (InvalidAlgorithmParameterException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+		        return null;
+		    }
+		    
+		    public  ObjectOutputStream createEncrypt(ObjectOutputStream outObj) {
+				    try {
+					    	Cipher encryptionCipher = Cipher.getInstance("AES/GCM/NoPadding");
+							GCMParameterSpec spec = new GCMParameterSpec(T_LEN,IV);
+						    encryptionCipher.init(Cipher.ENCRYPT_MODE, key,spec);
+				    		CipherOutputStream ciperOut = new CipherOutputStream(outObj, encryptionCipher);
+				    		return new ObjectOutputStream(ciperOut);
+				    } catch (NoSuchAlgorithmException e) {
+						e.printStackTrace();
+					} catch (NoSuchPaddingException e) {
+						e.printStackTrace();
+					} catch (InvalidKeyException e) {
+						e.printStackTrace();
+					} catch (InvalidAlgorithmParameterException e) {
+						e.printStackTrace();
+				    } catch (IOException e) {
+						e.printStackTrace();
+					}
+				      	return null;
+				    }
+		    
 		    public String encrypt(String message) {
 				try {
 			        byte[] messageInBytes = message.getBytes();

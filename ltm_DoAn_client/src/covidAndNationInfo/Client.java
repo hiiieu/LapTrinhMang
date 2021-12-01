@@ -34,54 +34,34 @@ public class Client {
 										System.exit(0);
 						}
 				}
-				
-				try {
-					in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-					out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-					inObj = new ObjectInputStream(socket.getInputStream());
-					
-					/*thiết lập mã hóa */
-					//nhận public key
-					String publicKey = in.readLine();
-					if(!publicKey.equals(MaHoaCongKhai.getPublicKeyString())) {
-							JOptionPane.showConfirmDialog(null, "public key của server không khớp", "Be not ok!", JOptionPane.DEFAULT_OPTION);
-							System.exit(0);
-					}
-					//mã hóa secretKey và gửi lại server
-					aes.init();//tạo secretKey
-					String key = aes.exportKey();String IV = aes.exportIV();
-					String Skey = rsa.encrypt( key );
-					String SIV = rsa.encrypt( IV );
-					out.write(Skey);out.newLine();out.flush();
-					out.write(SIV);out.newLine();out.flush();
-					
-					//kết nối xong thì show menu
-					Menu window = new Menu(in,out,inObj,aes);
-					window.frmTraCuThng.setVisible(true);
-					//thiết lập mã hóa với server
-					
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				
-//				
-//				String line = "";
-//				do {
-//					//lấy dữ liệu nhập từ màn hình
-//					line = stdIn.readLine();
-//					if(line.toLowerCase().equals("bye")) break;
-//					//ghi vào socket
-//					out.write(line);
-//					out.newLine();
-//					out.flush();
-//					//nhập kết quả gửi từ server
-//					String result=in.readLine();
-//					System.out.println(result);
-//				}while (true);
-//				//xong hết thì đóng
-//				in.close();
-//				out.close();
-//				socket.close();
+						try {
+							in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+							out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+							inObj = new ObjectInputStream(socket.getInputStream());
+							
+							/*thiết lập mã hóa */
+							//nhận public key
+							String publicKey = in.readLine();
+							if(!publicKey.equals(MaHoaCongKhai.getPublicKeyString())) {
+									JOptionPane.showConfirmDialog(null, "public key của server không khớp", "Be not ok!", JOptionPane.DEFAULT_OPTION);
+									System.exit(0);
+							}
+							//mã hóa secretKey và gửi lại server
+							aes.init();//tạo secretKey
+							String key = aes.exportKey();String IV = aes.exportIV();
+							String Skey = rsa.encrypt( key );
+							String SIV = rsa.encrypt( IV );
+							out.write(Skey);out.newLine();out.flush();
+							out.write(SIV);out.newLine();out.flush();
+							
+							//kết nối xong thì show menu
+							Menu window = new Menu(in,out,inObj,aes);
+							window.frmTraCuThng.setVisible(true);
+							//thiết lập mã hóa với server
+							
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
 		}
 		public static void main(String[] args) {
 			Client cli=new Client("localhost", 6000);

@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import javax.crypto.CipherOutputStream;
+
 public class Transport {
 		MaHoaDoiXung aes = null;
 		
@@ -26,8 +28,9 @@ public class Transport {
 		}
 		public void send(ObjectOutputStream outObj,Object obj) {
 				try {
-					//obj = aes.encrypt(obj);//mã hóa
+					outObj = aes.createEncrypt(outObj);
 					outObj.writeObject(obj);
+					outObj.flush();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -43,12 +46,10 @@ public class Transport {
 		}
 		public Object receive(ObjectInputStream inObj) {
 			try {
-				Object obj= inObj.readObject();
-				//obj = aes.decrypt(obj);//giải mã
+				inObj = aes.createDecrypt(inObj);
+				Object obj = inObj.read();
 				return obj;
 			} catch (IOException e) {
-					e.printStackTrace();
-			} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 			}
 			return null;
