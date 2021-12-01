@@ -1,8 +1,10 @@
 package covidAndNationInfo;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -44,7 +46,7 @@ public class MaHoaDoiXung {
 		        this.IV = decode(IV);
 		    }
 		    
-		    public ObjectInputStream createDecrypt(ObjectInputStream inObj){
+		    public ObjectInputStream createDecrypt(InputStream inObj){
 			       
 				try {
 					Cipher decryptionCipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
@@ -63,9 +65,9 @@ public class MaHoaDoiXung {
 		        return null;
 		    }
 		    
-		    public  ObjectOutputStream createEncrypt(ObjectOutputStream outObj) {
+		    public  ObjectOutputStream createEncrypt(OutputStream outObj) {
 				    try {
-					    	Cipher encryptionCipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+				    		Cipher encryptionCipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
 						    encryptionCipher.init(Cipher.ENCRYPT_MODE, key);
 				    		CipherOutputStream ciperOut = new CipherOutputStream(outObj, encryptionCipher);
 				    		return new ObjectOutputStream(ciperOut);
@@ -77,7 +79,7 @@ public class MaHoaDoiXung {
 						e.printStackTrace();
 					}catch (IOException e) {
 						e.printStackTrace();
-					}
+					} 
 				      	return null;
 				    }
 		    

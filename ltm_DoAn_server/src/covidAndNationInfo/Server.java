@@ -5,9 +5,11 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -17,8 +19,6 @@ public class Server {
 	private ServerSocket server=null;
 	BufferedReader in=null;
 	BufferedWriter out=null;
-	ObjectInputStream inObj=null;
-	ObjectOutputStream outObj = null;
 	static String clientKey="";
 	
 	public Server(int port) {
@@ -36,10 +36,10 @@ public class Server {
 								socket = server.accept();
 								//khi client kết nối hoàn tất
 								System.out.println("client đã kết nối");
-								in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-								out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-								outObj = new ObjectOutputStream(socket.getOutputStream());
-								inObj = new ObjectInputStream(socket.getInputStream());
+								InputStream input = socket.getInputStream();
+								OutputStream output = socket.getOutputStream();
+								in = new BufferedReader(new InputStreamReader(input));
+								out = new BufferedWriter(new OutputStreamWriter(output));
 								
 								/*Thiết lập mã hóa*/
 								MaHoaDoiXung aes = new MaHoaDoiXung();
@@ -74,7 +74,7 @@ public class Server {
 										if (choose.equals("nation")) {
 												//transport.send(out, "bạn đã chọn tra cứu thông tin quốc gia");
 												SinhVien sv = new SinhVien("hieu", 10);
-												transport.send(outObj, sv);
+												transport.send(output, sv);
 						//						//quốc gia (class nation)
 						//						//gửi danh sách quốc gia về client để đổ vào combobox
 						//						ListCountry lstCountry = new ListCountry();
@@ -114,7 +114,6 @@ public class Server {
 				try {
 					in.close();
 					out.close();
-					outObj.close();
 					server.close();
 					System.out.print("server đã tắt");
 				} catch (IOException e) {

@@ -17,6 +17,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -25,9 +26,8 @@ public class Menu {
 		public JFrame frmTraCuThng;
 		BufferedReader in=null;
 		BufferedWriter out=null;
-		ObjectInputStream inObj=null;
-		ObjectOutputStream outObj =null;
 		Transport transport = null;
+		Socket socket;
 		/**
 		 * Launch the application.
 		 */
@@ -47,12 +47,11 @@ public class Menu {
 		/**
 		 * Create the application.
 		 */
-		public Menu(BufferedReader in,BufferedWriter out,ObjectInputStream inObj,ObjectOutputStream outObj,MaHoaDoiXung aes) {
+		public Menu(Socket socket,BufferedReader in,BufferedWriter out,MaHoaDoiXung aes) {
 			initialize();
+			this.socket=socket;
 			this.in=in;
 			this.out=out;
-			this.inObj=inObj;
-			this.outObj=outObj;
 			transport = new Transport(aes);
 		}
 	
@@ -66,8 +65,8 @@ public class Menu {
 				public void windowClosing(WindowEvent e) {
 						try {
 							in.close();
-							inObj.close();
 							out.close();
+							socket.close();
 						} catch (IOException e1) {
 							e1.printStackTrace();
 						}
@@ -104,8 +103,14 @@ public class Menu {
 				public void mouseClicked(MouseEvent e) {
 						transport.send(out, "nation");
 						//String kq=transport.receive(in);
-						SinhVien sv = (SinhVien)transport.receive(inObj);//chưa nhận dc
-						JOptionPane.showConfirmDialog(null, sv.getLop() + sv.getTen(), "Be ok!", JOptionPane.DEFAULT_OPTION);
+						SinhVien sv;
+						try {
+							sv = (SinhVien)transport.receive(socket.getInputStream());
+							JOptionPane.showConfirmDialog(null, sv.getLop() + sv.getTen(), "Be ok!", JOptionPane.DEFAULT_OPTION);
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}//chưa nhận dc
+						
 				}
 			});
 			btnCountry.setFont(new Font("Tahoma", Font.PLAIN, 24));

@@ -3,8 +3,10 @@ package covidAndNationInfo;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 
 import javax.crypto.CipherOutputStream;
 
@@ -26,11 +28,12 @@ public class Transport {
 				e.printStackTrace();
 			}
 		}
-		public void send(ObjectOutputStream outObj,Object obj) {
+		public void send(OutputStream outObj,Object obj) {
 				try {
-					outObj = aes.createEncrypt(outObj);
-					outObj.writeObject(obj);
-					outObj.flush();
+					ObjectOutputStream objOut = new ObjectOutputStream(outObj);//không mã hóa
+					//ObjectOutputStream objOut = aes.createEncrypt(outObj);//này mã hóa chưa làm dc 
+					objOut.writeObject(obj);
+					//objOut.flush();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -44,10 +47,11 @@ public class Transport {
 						return "";
 				}
 		}
-		public Object receive(ObjectInputStream inObj) {
+		public Object receive(InputStream inObj) {
 			try {
-				inObj = aes.createDecrypt(inObj);
-				Object obj = inObj.readObject();
+				ObjectInputStream objIn = new ObjectInputStream(inObj);//không mã hóa
+				//ObjectInputStream objIn = aes.createDecrypt(inObj);//này mã hóa chưa làm dc 
+				Object obj = objIn.readObject();
 				return obj;
 			} catch (IOException e) {
 					e.printStackTrace();

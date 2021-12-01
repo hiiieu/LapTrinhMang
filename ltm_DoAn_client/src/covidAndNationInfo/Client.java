@@ -5,9 +5,11 @@ import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -19,8 +21,6 @@ public class Client {
 		private Socket socket=null;
 		BufferedReader in=null;
 		BufferedWriter out=null;
-		ObjectInputStream inObj=null;
-		ObjectOutputStream outObj = null;
 		
 		MaHoaCongKhai rsa = new MaHoaCongKhai();
 		MaHoaDoiXung aes = new MaHoaDoiXung();
@@ -37,10 +37,10 @@ public class Client {
 						}
 				}
 						try {
-							in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-							out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-							outObj = new ObjectOutputStream(socket.getOutputStream());
-							inObj = new ObjectInputStream(socket.getInputStream());
+							InputStream input = socket.getInputStream();
+							OutputStream output = socket.getOutputStream();
+							in = new BufferedReader(new InputStreamReader(input));
+							out = new BufferedWriter(new OutputStreamWriter(output));
 							
 							/*thiết lập mã hóa */
 							//nhận public key
@@ -58,7 +58,7 @@ public class Client {
 							out.write(SIV);out.newLine();out.flush();
 							
 							//kết nối xong thì show menu
-							Menu window = new Menu(in,out,inObj,outObj,aes);
+							Menu window = new Menu(socket,in,out,aes);
 							window.frmTraCuThng.setVisible(true);
 							
 							
