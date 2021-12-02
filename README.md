@@ -5,7 +5,7 @@ trong quá trình làm đổi, thêm class thoải mái
 
 Hàm transport để gửi và nhận tin
 
-ghi chú gửi object : [a relative link] (ghi chú.txt)
+ghi chú gửi object : [a relative link] (repo/blob/master/ghi chú.txt)
 
 rsa tham khảo:https://www.youtube.com/watch?v=jqGeUshOqeA
 
