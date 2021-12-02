@@ -7,8 +7,10 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 
 import javax.crypto.CipherOutputStream;
+import javax.crypto.SealedObject;
 
 public class Transport {
 		MaHoaDoiXung aes = null;
@@ -28,10 +30,11 @@ public class Transport {
 				e.printStackTrace();
 			}
 		}
-		public void send(OutputStream outObj,SinhVien obj) {
+		public void send(OutputStream outObj,Serializable obj) {
 				try {
 					ObjectOutputStream objOut = new ObjectOutputStream(outObj);
-					objOut.writeObject(aes.sealObj(obj)); //seal là mã hóa 
+					SealedObject seal = aes.sealObj(obj); //seal là mã hóa 
+					objOut.writeObject(seal); 
 					//objOut.flush();
 				} catch (IOException e) {
 					e.printStackTrace();
