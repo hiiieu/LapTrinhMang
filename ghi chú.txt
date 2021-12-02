@@ -1,0 +1,9 @@
+để gửi 2 object  qua lại thì:
+class phải implement serializable
+class phải trùng serialVersionUID(số+L) mặc định tui để 2L 
+2 class phải trùng package
+//giải thích serialVersionUID
+là số phiên bản của class tự mình quy định
+
+chạy thử gửi object trong guiObjectSocket
+trong đó có 2 project là server và client 
