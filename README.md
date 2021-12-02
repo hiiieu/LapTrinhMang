@@ -5,9 +5,10 @@ trong quá trình làm đổi, thêm class thoải mái
 
 Hàm transport để gửi và nhận tin
 
-ghi chú gửi object : [a relative link] ghi chú.txt
+ghi chú gửi object : [a relative link] (ghi chú.txt)
 
 rsa tham khảo:https://www.youtube.com/watch?v=jqGeUshOqeA
 
 aes tham khảo:https://www.youtube.com/watch?v=J1RmZZEkN0k
+
 Mã hóa object xài ####SealedObject
