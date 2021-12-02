@@ -25,8 +25,7 @@ public class ListCovid {
 		String quocgia="vietnam";
 		String time="2021-11-27";
 		
-		
-		//lấy json đổ dữ liệu vào lstCountry
+		//lấy json đổ dữ liệu vào lstCovid
 		public  void getLstCovid() {
 			
 			String apiCovidInfo="https://api.covid19api.com/live/country/"+quocgia+"/status/confirmed/date/"+time;
