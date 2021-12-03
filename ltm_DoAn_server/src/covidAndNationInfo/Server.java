@@ -126,18 +126,19 @@ public class Server {
 				} 
 				System.out.println("server bắt đầu chạy");
 				boolean flag=true;
+				ExecutorService executor = Executors.newFixedThreadPool(5);
 				while(flag==true) {
 							try {
 								System.out.println("server đang đợi yêu cầu");
 								socket = server.accept();
 								ClientHandler client = new ClientHandler(socket);
-								ExecutorService executor = Executors.newFixedThreadPool(5);
 								executor.execute(client);
 								//new Thread(client).start();
 							} catch (IOException e) {
 								System.err.print("client đã ngắt kết nối.");
 							}
 				}
+				executor.shutdown();
 				//xong hết rồi đóng hết để giải phóng tài nguyên
 				try {
 					server.close();
