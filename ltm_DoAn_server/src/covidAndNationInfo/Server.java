@@ -14,6 +14,9 @@ import java.io.OutputStreamWriter;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import javax.swing.JOptionPane;
 
@@ -128,7 +131,9 @@ public class Server {
 								System.out.println("server đang đợi yêu cầu");
 								socket = server.accept();
 								ClientHandler client = new ClientHandler(socket);
-								new Thread(client).start();
+								ExecutorService executor = Executors.newFixedThreadPool(5);
+								executor.execute(client);
+								//new Thread(client).start();
 							} catch (IOException e) {
 								System.err.print("client đã ngắt kết nối.");
 							}
