@@ -6,33 +6,35 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Scanner;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class CityInfo {
-	public static ArrayList<Weather> lstWeather= new ArrayList<Weather>();	
+	public static ArrayList<CityInfoDTO> lstCityInfo= new ArrayList<CityInfoDTO>();	
 	String apikey="db9440a39b78859e0f9cd68a061be96e";
-public  void getLstWeather(String city) {
-	
-		try {
-		String apiWeatherInfo="https://api.openweathermap.org/data/2.5/weather?q="+city+"&appid="+apikey;	
-		JSONObject jsonWeather = new JSONObject(getJson(apiWeatherInfo));		
-		JSONArray array = jsonWeather.getJSONArray("weather");		
+public  void getLstCity(int city) {
 		
-			int doam ;
-			String mua = null;
-			float nhietdo;		
+		try {
+		String apiCityInfo="http://geodb-free-service.wirefreethought.com/v1/geo/cities/"+city;	
+		JSONObject jsonCity = new JSONObject(getJson(apiCityInfo));	
+			int id;
+			int danso;
+			String tenthanhpho;
+			String tenquocgia;
+			float vitri1;
+			float vitri2;
 			
-			JSONObject jobj=array.getJSONObject(0);				
-			mua = jobj.getString("main");	
-						
-			nhietdo = jsonWeather.getJSONObject("main").getFloat("temp");			
-	//		mua = jsonWeather.getJSONArray("weather").getString(0);
-			doam = jsonWeather.getJSONObject("main").getInt("humidity");
-			System.out.print(nhietdo+"\n"+mua+"\n"+doam+"%\n");
-			Weather w = new Weather(doam, mua, nhietdo);
-			lstWeather.add(w);
+			id = jsonCity.getJSONObject("data").getInt("id");
+			danso = jsonCity.getJSONObject("data").getInt("population");
+			tenthanhpho = jsonCity.getJSONObject("data").getString("city");
+			tenquocgia = jsonCity.getJSONObject("data").getString("country");
+			vitri1 = jsonCity.getJSONObject("data").getFloat("latitude");
+			vitri2 = jsonCity.getJSONObject("data").getFloat("longitude");
+									
+			System.out.print(id+"\n"+tenthanhpho+"\n"+tenquocgia+"\n"+danso+"\n"+vitri1+","+vitri2);
+			CityInfoDTO cinf = new CityInfoDTO( id,  danso,  tenthanhpho,  vitri1, tenquocgia);
+			lstCityInfo.add(cinf);
 		}catch(Exception e) {
 			System.out.println("Ko co city");
 		}	
@@ -62,4 +64,23 @@ public  void getLstWeather(String city) {
 			}
 			return null;
 	  }
+	public static String replaceSpace(String url) {
+		return url.trim().replaceAll(" ", "%20");
+	}
+	public static void main(String[] args) {
+		@SuppressWarnings("resource")
+		Scanner sc = new Scanner(System.in);
+		CityInfo ls = new CityInfo();	
+		int city;
+		System.out.print("Nhap Id city: ");
+		city = sc.nextInt();
+		ls.getLstCity(city);
+//		while (true) {		
+//		System.out.print("Nhap city: ");		
+//		city = sc.nextLine();		
+//		
+//		if(city.equals ("bye")) break;		
+//		ls.getLstWeather(city);					
+//		}	
+	}
 }

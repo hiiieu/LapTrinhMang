@@ -79,7 +79,7 @@ public class WeatherInfo {
 		city = sc.nextLine();		
 		city = replaceSpace(city);
 		if(city.equals ("bye")) break;		
-		ls.getLstWeather(city);					
+		ls.getLstWeather(city);
 		}	
 	}
 }
