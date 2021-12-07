@@ -66,8 +66,8 @@ public class ListCity {
 		ListCity lsct= new ListCity();
 		lsct.getLstThanhPho();
 		for (City i : lstCity) {
-			System.out.println(i.getTenQuocGia()+",id: "+i.getId()+"\nTên Thành Phố: "+i.getTenThanhPho()+"\n");
+			System.out.println(i.getTenQuocGia()+",id: "+i.getId()+"\nTen thanh pho: "+i.getTenThanhPho()+"\n");
 		}
-		System.out.println("so luong quốc gia: "+lstCity.size());
+		System.out.println("so luong quoc gia: "+lstCity.size());
 	}
 }
