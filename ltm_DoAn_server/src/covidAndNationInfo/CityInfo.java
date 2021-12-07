@@ -70,11 +70,12 @@ public  void getLstCity(int city) {
 	public static void main(String[] args) {
 		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(System.in);
-		CityInfo ls = new CityInfo();	
-		int city;
-		System.out.print("Nhap Id city: ");
-		city = sc.nextInt();
-		ls.getLstCity(city);
+		CityInfo ci = new CityInfo();	
+		int city = 3453217;
+		ci.getLstCity(city);
+//		System.out.print("Nhap Id city: ");
+//		city = sc.nextInt();
+		
 //		while (true) {		
 //		System.out.print("Nhap city: ");		
 //		city = sc.nextLine();		

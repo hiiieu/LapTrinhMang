@@ -70,7 +70,7 @@ public class WeatherInfo {
 	public static void main(String[] args) {
 		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(System.in);
-		WeatherInfo ls= new WeatherInfo();	
+		WeatherInfo wi= new WeatherInfo();	
 		String city = "";
 		
 		
@@ -79,7 +79,7 @@ public class WeatherInfo {
 		city = sc.nextLine();		
 		city = replaceSpace(city);
 		if(city.equals ("bye")) break;		
-		ls.getLstWeather(city);
+		wi.getLstWeather(city);
 		}	
 	}
 }
