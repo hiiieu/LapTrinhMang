@@ -1,4 +1,4 @@
-package covidAndNationInfo;
+package Server;
 
 
 import java.io.BufferedReader;
@@ -19,6 +19,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
 import javax.swing.JOptionPane;
+
+import FetchInfo.SinhVien;
+import MaHoa.MaHoaCongKhai;
+import MaHoa.MaHoaDoiXung;
 
 public class Server {
 	private Socket socket=null;

@@ -1,4 +1,4 @@
-package covidAndNationInfo;
+package FetchInfo;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,7 +18,7 @@ import javax.swing.JCheckBox;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import covidAndNationInfo.Covid;
+import DTO.Covid;
 
 public class ListCovid {
 		public static ArrayList<Covid> lstCovid= new ArrayList<Covid>();

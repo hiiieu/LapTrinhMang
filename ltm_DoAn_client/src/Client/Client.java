@@ -1,4 +1,4 @@
-package covidAndNationInfo;
+package Client;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -16,6 +16,10 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import javax.swing.JOptionPane;
+
+import Giaodien.Menu;
+import MaHoa.MaHoaCongKhai;
+import MaHoa.MaHoaDoiXung;
 
 public class Client {
 		private Socket socket=null;

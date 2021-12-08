@@ -1,4 +1,4 @@
-package covidAndNationInfo;
+package FetchInfo;
 
 public class NationInfo {
 		

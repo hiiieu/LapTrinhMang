@@ -1,4 +1,4 @@
-package covidAndNationInfo;
+package FetchInfo;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import org.json.JSONObject;
+
+import DTO.CityInfoDTO;
 
 public class CityInfo {
 	public static ArrayList<CityInfoDTO> lstCityInfo= new ArrayList<CityInfoDTO>();	

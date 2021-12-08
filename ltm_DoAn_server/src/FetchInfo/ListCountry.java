@@ -1,4 +1,4 @@
-package covidAndNationInfo;
+package FetchInfo;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,6 +15,8 @@ import javax.swing.JCheckBox;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import DTO.Country;
 
 public class ListCountry {
 		public static ArrayList<Country> lstCounty= new ArrayList<Country>();

@@ -1,4 +1,4 @@
-package covidAndNationInfo;
+package MaHoa;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

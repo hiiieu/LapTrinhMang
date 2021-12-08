@@ -1,4 +1,4 @@
-package covidAndNationInfo;
+package Server;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -7,9 +7,12 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 
 import javax.crypto.CipherOutputStream;
 import javax.crypto.SealedObject;
+
+import MaHoa.MaHoaDoiXung;
 
 public class Transport {
 		MaHoaDoiXung aes = null;
@@ -29,6 +32,16 @@ public class Transport {
 				e.printStackTrace();
 			}
 		}
+		public void send(OutputStream outObj,Serializable obj) {
+				try {
+					ObjectOutputStream objOut = new ObjectOutputStream(outObj);
+					SealedObject seal = aes.sealObj(obj); //seal là mã hóa 
+					objOut.writeObject(seal); 
+					//objOut.flush();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+		}
 		public String receive(BufferedReader in) {
 				try {
 					String data = in.readLine();
@@ -38,17 +51,4 @@ public class Transport {
 						return "";
 				}
 		}
-		public Object receive(InputStream inObj) {
-			try {
-				ObjectInputStream objIn = new ObjectInputStream(inObj);
-				Object obj = objIn.readObject();
-				obj = aes.desealObj((SealedObject)obj);//deseal là giải mã
-				return obj;
-			} catch (IOException e) {
-					e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			}
-			return null;
-	}
 }

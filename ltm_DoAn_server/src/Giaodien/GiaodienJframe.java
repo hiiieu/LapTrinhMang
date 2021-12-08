@@ -1,4 +1,4 @@
-package covidAndNationInfo;
+package Giaodien;
 
 import java.awt.Color;
 import java.awt.Cursor;
