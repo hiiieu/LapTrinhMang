@@ -1,15 +1,15 @@
-package covidAndNationInfo;
+package DTO;
 
 public class CityInfoDTO {
 	private int id;
 	private int danso;
 	private String tenThanhPho;
-	private String vitri;
+	private float vitri;
 	private String tenQuocGia;
 	
-	public CityInfoDTO( int danso, String tenThanhPho, String vitri, String tenQuocGia) {
+	public CityInfoDTO(int id, int danso, String tenThanhPho, float vitri, String tenQuocGia) {
 		super();
-		
+		this.id=id;
 		this.danso=danso;
 		this.tenThanhPho=tenThanhPho;
 		this.vitri=vitri;
@@ -27,10 +27,10 @@ public class CityInfoDTO {
 	public void setId(int id) {
 		this.id=id;
 	}
-	public String getViTri() {
+	public float getViTri() {
 		return vitri;
 	}
-	public void setViTri(String vitri) {
+	public void setViTri(float vitri) {
 		this.vitri=vitri;
 	}
 	public String getTenQuocGia() {

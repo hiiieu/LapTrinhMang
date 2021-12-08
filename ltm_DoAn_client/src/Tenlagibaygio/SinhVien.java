@@ -1,4 +1,4 @@
-package covidAndNationInfo;
+package Tenlagibaygio;
 
 
 import java.io.Serializable;

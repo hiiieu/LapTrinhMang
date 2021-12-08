@@ -1,4 +1,4 @@
-package covidAndNationInfo;
+package DTO;
 
 public class City {
 	private String tenThanhPho;

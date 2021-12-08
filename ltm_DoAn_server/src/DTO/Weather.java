@@ -1,4 +1,4 @@
-package covidAndNationInfo;
+package DTO;
 
 public class Weather {
 	private int id;

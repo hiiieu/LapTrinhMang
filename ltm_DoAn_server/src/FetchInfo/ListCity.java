@@ -1,4 +1,4 @@
-package covidAndNationInfo;
+package FetchInfo;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,6 +9,8 @@ import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import DTO.City;
 
 public class ListCity {
 	public static ArrayList<City> lstCity= new ArrayList<City>();
@@ -66,8 +68,8 @@ public class ListCity {
 		ListCity lsct= new ListCity();
 		lsct.getLstThanhPho();
 		for (City i : lstCity) {
-			System.out.println(i.getTenQuocGia()+",id: "+i.getId()+"\nTên Thành Phố: "+i.getTenThanhPho()+"\n");
+			System.out.println(i.getTenQuocGia()+",id: "+i.getId()+"\nTen thanh pho: "+i.getTenThanhPho()+"\n");
 		}
-		System.out.println("so luong quốc gia: "+lstCity.size());
+		System.out.println("so luong quoc gia: "+lstCity.size());
 	}
 }

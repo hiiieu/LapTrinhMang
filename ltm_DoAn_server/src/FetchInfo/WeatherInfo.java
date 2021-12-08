@@ -1,4 +1,4 @@
-package covidAndNationInfo;
+package FetchInfo;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,15 +6,19 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class CityInfo {
-	public static ArrayList<Weather> lstWeather= new ArrayList<Weather>();	
-	String apikey="db9440a39b78859e0f9cd68a061be96e";
-public  void getLstWeather(String city) {
+import DTO.Weather;
+
+public class WeatherInfo {
+	public static ArrayList<Weather> lstWeather= new ArrayList<Weather>();
 	
+	String apikey="db9440a39b78859e0f9cd68a061be96e";
+	public  void getLstWeather(String city) {
+		
 		try {
 		String apiWeatherInfo="https://api.openweathermap.org/data/2.5/weather?q="+city+"&appid="+apikey;	
 		JSONObject jsonWeather = new JSONObject(getJson(apiWeatherInfo));		
@@ -62,4 +66,22 @@ public  void getLstWeather(String city) {
 			}
 			return null;
 	  }
+	public static String replaceSpace(String url) {
+		return url.trim().replaceAll(" ", "%20");
+	}
+	public static void main(String[] args) {
+		@SuppressWarnings("resource")
+		Scanner sc = new Scanner(System.in);
+		WeatherInfo wi= new WeatherInfo();	
+		String city = "";
+		
+		
+		while (true) {		
+		System.out.print("Nhap city: ");		
+		city = sc.nextLine();		
+		city = replaceSpace(city);
+		if(city.equals ("bye")) break;		
+		wi.getLstWeather(city);
+		}	
+	}
 }
