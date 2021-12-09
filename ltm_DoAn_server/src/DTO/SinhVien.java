@@ -1,4 +1,4 @@
-package FetchInfo;
+package DTO;
 
 
 import java.io.Serializable;

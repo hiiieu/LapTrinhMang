@@ -6,6 +6,13 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.net.Socket;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -17,15 +24,18 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
+
+import Client.Transport;
+import MaHoa.MaHoaDoiXung;
+
 import javax.swing.Icon;
 
 
-public class GiaodienJframe extends JFrame {
+public class NationJframe extends JFrame {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txtquocgia;
 	private JTextField txtthanhpho;
@@ -33,23 +43,24 @@ public class GiaodienJframe extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					GiaodienJframe frame = new GiaodienJframe();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public void init() {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					NationJframe frame = new NationJframe();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
 	 */
-	public GiaodienJframe() {
+
+	public NationJframe(InputStream inobj,BufferedReader in,BufferedWriter out,Transport transport) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 968, 516);
 		contentPane = new JPanel();

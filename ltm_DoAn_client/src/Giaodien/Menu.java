@@ -8,8 +8,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import Client.Transport;
+import DTO.SinhVien;
 import MaHoa.MaHoaDoiXung;
-import Tenlagibaygio.SinhVien;
 
 import java.awt.GridLayout;
 import javax.swing.JButton;
@@ -33,7 +33,6 @@ public class Menu {
 		BufferedReader in=null;
 		BufferedWriter out=null;
 		Transport transport = null;
-		Socket socket;
 		InputStream InObj=null;
 		/**
 		 * Launch the application.
@@ -113,7 +112,7 @@ public class Menu {
 						SinhVien sv;
 							sv = (SinhVien)transport.receive(InObj);
 							JOptionPane.showConfirmDialog(null, sv.getLop() + sv.getTen(), "Be ok!", JOptionPane.DEFAULT_OPTION);
-						
+												
 				}
 			});
 			btnCountry.setFont(new Font("Tahoma", Font.PLAIN, 24));

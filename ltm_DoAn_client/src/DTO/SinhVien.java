@@ -1,4 +1,4 @@
-package Tenlagibaygio;
+package DTO;
 
 
 import java.io.Serializable;
