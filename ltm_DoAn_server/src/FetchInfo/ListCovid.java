@@ -22,12 +22,10 @@ import DTO.Covid;
 
 public class ListCovid {
 		public static ArrayList<Covid> lstCovid= new ArrayList<Covid>();
-		String quocgia="vietnam";
-		String time="2021-11-27";
+		
 		
 		//lấy json đổ dữ liệu vào lstCovid
-		public  void getLstCovid() {
-			
+		public void getLstCovid(String quocgia, String time ) {	
 			String apiCovidInfo="https://api.covid19api.com/live/country/"+quocgia+"/status/confirmed/date/"+time;
 			JSONArray jsonLstCovid = new JSONArray(getJson(apiCovidInfo));
 			
@@ -59,8 +57,10 @@ public class ListCovid {
 		}
 		
 		public static void main(String[] args) {
+			String quocgia="vietnam";
+			String time="2021-11-27";
 			ListCovid ls= new ListCovid();
-			ls.getLstCovid();
+			ls.getLstCovid(quocgia, time);
 			for (Covid i : lstCovid) {
 				if(i.getThoiGian().contains("2021-11-28")) {
 					System.out.println(i.getQuocGia()+"\nThời gian: "+i.getThoiGian()+"\nTổng số ca nhiễm: "+i.getCaNhiem()+"\nTổng số ca khỏi bệnh: "+i.getKhoiBenh()+"\nTổng số ca chết: "
