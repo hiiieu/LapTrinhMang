@@ -23,18 +23,18 @@ public class GiaodienCovid extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					GiaodienCovid frame = new GiaodienCovid();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					GiaodienCovid frame = new GiaodienCovid();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
@@ -42,7 +42,7 @@ public class GiaodienCovid extends JFrame {
 	public GiaodienCovid() {
 		setFont(new Font("Tahoma", Font.PLAIN, 14));
 		setTitle("Thông tin bệnh nhân covid");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 732, 552);
 		contentPane = new JPanel();
 		contentPane.setForeground(new Color(0, 0, 0));

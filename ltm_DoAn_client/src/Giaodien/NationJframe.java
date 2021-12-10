@@ -61,7 +61,7 @@ public class NationJframe extends JFrame {
 	 */
 
 	public NationJframe(InputStream inobj,BufferedReader in,BufferedWriter out,Transport transport) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 968, 516);
 		contentPane = new JPanel();
 		contentPane.setName("aaa");
@@ -92,7 +92,7 @@ public class NationJframe extends JFrame {
 		
 		panelTC.add(txtquocgia);
 		
-		String country[]= {"Viet Nam"};
+		String country[]= {"Viet Nam" , "US"};
 		JComboBox cbbquocgia = new JComboBox(country);
 		cbbquocgia.setEditable(true);
 		cbbquocgia.setBounds(0, 0, 161, 20);
@@ -319,7 +319,7 @@ public class NationJframe extends JFrame {
 		});
 		panelTCTP.add(txtthanhpho);
 		
-		String city[]= {"Ho Chi Minh"};
+		String city[]= {"Ho Chi Minh" , "Ha Noi" , "Los Angeles", "Bùm bùm"};
 		
 		JComboBox cbbthanhpho = new JComboBox(city);
 		cbbthanhpho.setEditable(true);

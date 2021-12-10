@@ -96,7 +96,9 @@ public class Menu {
 				public void mouseClicked(MouseEvent e) {
 							transport.send(out, "covid");
 							String kq=transport.receive(in);
-							JOptionPane.showConfirmDialog(null, kq, "Be ok!", JOptionPane.DEFAULT_OPTION);
+							JOptionPane.showConfirmDialog(null, kq, "Be ok!", JOptionPane.DEFAULT_OPTION);	
+							GiaodienCovid cv = new GiaodienCovid();
+							cv.setVisible(true);
 				}
 			});
 			
@@ -112,7 +114,8 @@ public class Menu {
 						SinhVien sv;
 							sv = (SinhVien)transport.receive(InObj);
 							JOptionPane.showConfirmDialog(null, sv.getLop() + sv.getTen(), "Be ok!", JOptionPane.DEFAULT_OPTION);
-												
+							NationJframe jf = new NationJframe(InObj, in, out, transport);
+							jf.setVisible(true);							
 				}
 			});
 			btnCountry.setFont(new Font("Tahoma", Font.PLAIN, 24));
