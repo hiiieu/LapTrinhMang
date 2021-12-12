@@ -6,14 +6,10 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
-
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
-import javax.naming.ldap.StartTlsRequest;
-import javax.swing.JCheckBox;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -59,13 +55,16 @@ public class CovidInfo {
 			return url.trim().replaceAll(" ", "%20");
 		}
 		
-		public static void main(String[] args) {
+		public static void main(String[] args) {			
+			LocalDate dates = LocalDate.of(2021, 12, 06);
+			//api chỉ lấy ngày kế tiếp nên phải giảm xuống 1 ngày so với ngày nhập
+			String strdates = dates.minusDays(1).toString();
 			String quocgia="viet nam";
-			String time="2021-11-11";
 			CovidInfo ls= new CovidInfo();
-			ls.getLstCovid(quocgia, time);
+			System.out.println(strdates);
+			ls.getLstCovid(quocgia, strdates);
 			for (Covid i : lstCovid) {
-				if(i.getThoiGian().contains("2021-11-12T")) {
+				if(i.getThoiGian().contains(dates.toString())) {
 					System.out.println(i.getQuocGia()+"\nThời gian: "+i.getThoiGian()+"\nTổng số ca nhiễm: "+i.getCaNhiem()+"\nTổng số ca khỏi bệnh: "+i.getKhoiBenh()+"\nTổng số ca chết: "
 							+i.getChet()+"\n");
 				}
