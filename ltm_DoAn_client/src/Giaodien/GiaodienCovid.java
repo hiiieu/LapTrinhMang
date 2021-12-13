@@ -4,6 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStream;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -13,6 +16,8 @@ import javax.swing.JScrollBar;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+
+import Client.Transport;
 
 public class GiaodienCovid extends JFrame {
 
@@ -39,7 +44,7 @@ public class GiaodienCovid extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public GiaodienCovid() {
+	public GiaodienCovid(InputStream inObj,BufferedReader in,BufferedWriter out,Transport tranport) {
 		setFont(new Font("Tahoma", Font.PLAIN, 14));
 		setTitle("Thông tin bệnh nhân covid");
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);

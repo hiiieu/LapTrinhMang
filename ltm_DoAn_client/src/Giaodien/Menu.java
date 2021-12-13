@@ -96,8 +96,9 @@ public class Menu {
 				public void mouseClicked(MouseEvent e) {
 							transport.send(out, "covid");
 							String kq=transport.receive(in);
-							JOptionPane.showConfirmDialog(null, kq, "Be ok!", JOptionPane.DEFAULT_OPTION);	
-							GiaodienCovid cv = new GiaodienCovid();
+							//JOptionPane.showConfirmDialog(null, kq, "Be ok!", JOptionPane.DEFAULT_OPTION);	
+							//inObj để gửi object, in out để gửi,nhận string,transport để dùng hàm gửi nhận.
+							GiaodienCovid cv = new GiaodienCovid(InObj, in, out, transport);
 							cv.setVisible(true);
 				}
 			});
@@ -113,7 +114,8 @@ public class Menu {
 						//String kq=transport.receive(in);
 						SinhVien sv;
 							sv = (SinhVien)transport.receive(InObj);
-							JOptionPane.showConfirmDialog(null, sv.getLop() + sv.getTen(), "Be ok!", JOptionPane.DEFAULT_OPTION);
+							//JOptionPane.showConfirmDialog(null, sv.getLop() + sv.getTen(), "Be ok!", JOptionPane.DEFAULT_OPTION);
+							//inObj để gửi object, in out để gửi,nhận string,transport để dùng hàm gửi nhận.
 							NationJframe jf = new NationJframe(InObj, in, out, transport);
 							jf.setVisible(true);							
 				}
