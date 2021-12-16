@@ -7,8 +7,6 @@ public class Country implements Serializable{
 		
 		private static final long serialVersionUID = 2L;
 	
-	
-		private int id;
 		private String tenQuocGia;
 		private int danSo;
 		private float dienTich;
@@ -21,14 +19,18 @@ public class Country implements Serializable{
 		private String quocKy;
 		private String cca3;
 		private String toaDo;
-		
+		@Override
+		public String toString() {
+				return "Tên nước: "+tenQuocGia +"\nDân Số: "+danSo+"\nDiện Tích: "+dienTich+"\nTiền tệ: "+tienTe
+						+"\nThủ Đô: "+thuDo+"\nChâu Lục: "+chauLuc+"\nNgôn Ngữ: "+ngonNgu+"\nMúi Giờ: "+muiGio
+						+"\nTiếp Giáp: "+tiepGiap+"\nQuốc Kỳ: "+quocKy+"\nTọa độ: "+toaDo;
+		}
 
 		public Country() {}
 		
-		public Country(int id,String tenQuocGia, int danSo, float dienTich, String tienTe, String thuDo, String chauLuc,
+		public Country(String tenQuocGia, int danSo, float dienTich, String tienTe, String thuDo, String chauLuc,
 				String ngonNgu, String muiGio, String tiepGiap, String quocKy, String cca3, String toaDo) {
 			super();
-			this.id=id;
 			this.tenQuocGia = tenQuocGia;
 			this.danSo = danSo;
 			this.dienTich = dienTich;
@@ -41,14 +43,6 @@ public class Country implements Serializable{
 			this.quocKy = quocKy;
 			this.cca3 = cca3;
 			this.toaDo = toaDo;
-		}
-		
-		public int getId() {
-			return id;
-		}
-
-		public void setId(int id) {
-			this.id = id;
 		}
 		
 		public String getTenQuocGia() {
@@ -125,4 +119,5 @@ public class Country implements Serializable{
 		public void setToaDo(String toaDo) {
 			this.toaDo = toaDo;
 		}
+		
 }
