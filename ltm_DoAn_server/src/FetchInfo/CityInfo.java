@@ -15,7 +15,7 @@ import DTO.CityInfoDTO;
 public class CityInfo {
 	public static ArrayList<CityInfoDTO> lstCityInfo= new ArrayList<CityInfoDTO>();	
 	String apikey="db9440a39b78859e0f9cd68a061be96e";
-public  void getLstCity(int city) {
+public  void getCityInfo(int city) {
 		
 		try {
 		String apiCityInfo="http://geodb-free-service.wirefreethought.com/v1/geo/cities/"+city;	
@@ -74,7 +74,7 @@ public  void getLstCity(int city) {
 		Scanner sc = new Scanner(System.in);
 		CityInfo ci = new CityInfo();	
 		int city = 3453217;
-		ci.getLstCity(city);
+		ci.getCityInfo(city);
 //		System.out.print("Nhap Id city: ");
 //		city = sc.nextInt();
 		

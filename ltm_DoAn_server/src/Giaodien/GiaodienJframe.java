@@ -6,6 +6,19 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+<<<<<<< Updated upstream:ltm_DoAn_server/src/Giaodien/GiaodienJframe.java
+=======
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.net.Socket;
+import java.util.StringTokenizer;
+>>>>>>> Stashed changes:ltm_DoAn_client/src/Giaodien/NationJframe.java
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -29,6 +42,7 @@ public class GiaodienJframe extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtquocgia;
 	private JTextField txtthanhpho;
+	Transport transport = null;
 
 	/**
 	 * Launch the application.
@@ -49,8 +63,13 @@ public class GiaodienJframe extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+<<<<<<< Updated upstream:ltm_DoAn_server/src/Giaodien/GiaodienJframe.java
 	public GiaodienJframe() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+=======
+
+	public NationJframe(InputStream inobj,BufferedReader in,BufferedWriter out,Transport transport) {
+>>>>>>> Stashed changes:ltm_DoAn_client/src/Giaodien/NationJframe.java
 		setBounds(100, 100, 968, 516);
 		contentPane = new JPanel();
 		contentPane.setName("aaa");
@@ -81,9 +100,18 @@ public class GiaodienJframe extends JFrame {
 		
 		panelTC.add(txtquocgia);
 		
+<<<<<<< Updated upstream:ltm_DoAn_server/src/Giaodien/GiaodienJframe.java
 		String country[]= {"Viet Nam"};
 		JComboBox cbbquocgia = new JComboBox(country);
 		cbbquocgia.setEditable(true);
+=======
+//		String country[]= {"Viet Nam" , "US"};
+		String kq = transport.receive(in);
+		StringTokenizer tk= new StringTokenizer(kq,";");
+		JComboBox cbbquocgia = new JComboBox();
+		for(;tk.hasMoreElements();) {
+		cbbquocgia.addItem(tk.nextToken());}
+>>>>>>> Stashed changes:ltm_DoAn_client/src/Giaodien/NationJframe.java
 		cbbquocgia.setBounds(0, 0, 161, 20);
 		panelTC.add(cbbquocgia);
 		
@@ -92,10 +120,12 @@ public class GiaodienJframe extends JFrame {
 		btnTC.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnTC.setBorder(new LineBorder(new Color(0, 0, 0)));
 		btnTC.setBounds(167, 0, 89, 20);
-		btnTC.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				
+		btnTC.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				int k = cbbquocgia.getSelectedIndex();
+				String l = ""+k;
+				transport.send(out, l);
+				transport.receive(inobj);
 			}
 		});
 		panelTC.add(btnTC);

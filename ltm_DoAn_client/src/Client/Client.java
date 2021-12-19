@@ -35,7 +35,7 @@ public class Client {
 						try {
 								socket = new Socket(address,port);
 						}catch (IOException e) {
-								int rs = JOptionPane.showConfirmDialog(null, "Kết nối lại", "Lỗi kết nối",JOptionPane.YES_NO_CANCEL_OPTION);
+								int rs = JOptionPane.showConfirmDialog(null, "Kết nối lại", "Lỗi kết nối",JOptionPane.YES_NO_OPTION);
 								if(rs==JOptionPane.NO_OPTION || rs == JOptionPane.CANCEL_OPTION || rs == JOptionPane.CLOSED_OPTION) 
 										System.exit(0);
 						}

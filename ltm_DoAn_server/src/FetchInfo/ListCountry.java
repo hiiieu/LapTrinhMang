@@ -150,12 +150,52 @@ public class ListCountry {
 		}
 		public static void main(String[] args) {
 			ListCountry ls= new ListCountry();
+<<<<<<< Updated upstream
 			ls.getLstQuocGia();
 			for (Country i : lstCounty) {
 				System.out.println(i.getTenQuocGia()+",id: "+i.getId()+"\nthu do: "+i.getThuDo()+"\ndan so: "+i.getDanSo()+"\ndien tich: "
 						+i.getDienTich() +"\nchau luc: "+i.getChauLuc()+"\nmui gio: "+i.getMuiGio()+"\nngon ngu: "+i.getNgonNgu()
 						+"\ntien te: "+i.getTienTe()+"\nquoc ky: "+i.getQuocKy()+"\ntiep giap: "+i.getTiepGiap()
 						+"\ntoa do: "+i.getToaDo()+"\n");
+=======
+			ls.init();
+			System.out.print(ls.getInfoByID(0).toString());
+		}
+		//trả về danh sách tên quốc gia để đổ vào combobox
+		public String  ListNameToString(){
+				LstTenQuocGia = getDsFromFile(fileDsQuocGia); //mở server lên chạy cái này 
+				String lstToString="";
+				for (String i: LstTenQuocGia)
+				lstToString+=(i+";");
+				return lstToString;
+		}
+		public ArrayList<String> getDsFromFile(String filename) {
+				ArrayList<String> temp= new ArrayList<>();
+				String currentDir = new File("").getAbsolutePath();
+				String url = currentDir+"/"+filename;
+				File file=new File(url);
+				// Đọc dữ liệu từ File với Scanner
+		        FileInputStream fileInputStream=null;
+		        Scanner scanner = null; 
+		        
+		        try {
+		        	fileInputStream = new FileInputStream(file);
+		        	scanner = new Scanner(fileInputStream);
+		            while (scanner.hasNextLine()) {
+		                	temp.add(scanner.nextLine());
+		            }
+		        } catch (FileNotFoundException e) {
+						System.err.println(e);
+				} finally {
+		            try {
+		                scanner.close();
+		                fileInputStream.close();
+		            } catch (IOException ex) {
+		            	return null;
+		            }
+		        }
+		        return temp;
+>>>>>>> Stashed changes
 			}
 			System.out.println("số lượng quốc gia: "+lstCounty.size());
 		}

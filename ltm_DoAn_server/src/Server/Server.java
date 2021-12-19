@@ -20,7 +20,12 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 import javax.swing.JOptionPane;
 
+<<<<<<< Updated upstream
 import FetchInfo.SinhVien;
+=======
+import DTO.SinhVien;
+import FetchInfo.ListCountry;
+>>>>>>> Stashed changes
 import MaHoa.MaHoaCongKhai;
 import MaHoa.MaHoaDoiXung;
 
@@ -74,17 +79,30 @@ public class Server {
 						}
 						if (choose.equals("covid")) {
 								transport.send(out, "bạn đã chọn tra cứu thông tin covid");
+								System.out.println("oke");
 								//viết covid (class covid)
 						}
 						
 						if (choose.equals("nation")) {
 								//transport.send(out, "bạn đã chọn tra cứu thông tin quốc gia");
+<<<<<<< Updated upstream
 								SinhVien sv = new SinhVien("hieu", 10);
 								transport.send(output, sv);
+=======
+//								SinhVien sv = new SinhVien("hieu", 10);
+//								transport.send(output, sv);
+								
+>>>>>>> Stashed changes
 		//						//quốc gia (class nation)
 		//						//gửi danh sách quốc gia về client để đổ vào combobox
-		//						ListCountry lstCountry = new ListCountry();
-		//						sendToClient(out, lstCountry.getListName());//trả về dãy string ngăn cách bởi dấu ,
+								ListCountry lstCountry = new ListCountry();
+								lstCountry.init();
+								transport.send(out, lstCountry.ListNameToString());
+								int i = Integer.parseInt(transport.receive(in));			
+								transport.send(output, lstCountry.getInfoByID(i).toString());
+								
+//								;
+								//trả về dãy string ngăn cách bởi dấu ,
 		//						//gửi danh sách thành phố
 		//						/*
 		//								tạo thêm đối tượng city trong country làm típ
