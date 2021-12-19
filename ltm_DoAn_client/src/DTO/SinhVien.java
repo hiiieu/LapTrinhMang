@@ -12,7 +12,7 @@ public class SinhVien implements Serializable{
 			super();
 			this.ten = ten;
 			this.lop = lop;
-		}
+		} 
 		public String getTen() {
 			return ten;
 		}

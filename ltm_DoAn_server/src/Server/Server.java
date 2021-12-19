@@ -20,7 +20,9 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 import javax.swing.JOptionPane;
 
+import DTO.Country;
 import DTO.SinhVien;
+import FetchInfo.ListCountry;
 import MaHoa.MaHoaCongKhai;
 import MaHoa.MaHoaDoiXung;
 
@@ -79,14 +81,21 @@ public class Server {
 						
 						if (choose.equals("nation")) {
 								//transport.send(out, "bạn đã chọn tra cứu thông tin quốc gia");
-								SinhVien sv = new SinhVien("hieu", 10);
-								transport.send(output, sv);
+//								SinhVien sv = new SinhVien("hieu", 10);
+//								transport.send(output, sv);
 								
 		//						//quốc gia (class nation)
 		//						//gửi danh sách quốc gia về client để đổ vào combobox
-		//						ListCountry lstCountry = new ListCountry();
+								ListCountry ls = new ListCountry();
+								ls.init();
+								transport.send(out, ls.ListNameToString());
+								int i = 0;
+								while(i != -1) {
+								i= Integer.parseInt(transport.receive(in));
+								transport.send(output, ls.getInfoByID(i));}
 		//						sendToClient(out, lstCountry.getListName());//trả về dãy string ngăn cách bởi dấu ,
 		//						//gửi danh sách thành phố
+							
 		//						/*
 		//								tạo thêm đối tượng city trong country làm típ
 		//						*/

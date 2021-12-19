@@ -13,12 +13,14 @@ import java.io.BufferedWriter;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.net.Socket;
+import java.util.StringTokenizer;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -26,6 +28,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 
 import Client.Transport;
+import DTO.Country;
 import MaHoa.MaHoaDoiXung;
 
 import javax.swing.Icon;
@@ -39,7 +42,7 @@ public class NationJframe extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtquocgia;
 	private JTextField txtthanhpho;
-
+	
 	/**
 	 * Launch the application.
 	 */
@@ -77,39 +80,7 @@ public class NationJframe extends JFrame {
 		panel_tong.setLayout(null);
 		contentPane.add(panel_tong);
 		
-		JPanel panelTC = new JPanel();
-		panelTC.setBackground(Color.WHITE);
-		panelTC.setBounds(35, 38, 256, 50);		
-		panelTC.setLayout(null);
-		panel_tong.add(panelTC);
 		
-		
-		
-		txtquocgia = new JTextField();
-		txtquocgia.setBounds(0, 30, 161, 20);		
-		txtquocgia.setEditable(false);
-		txtquocgia.setColumns(10);	
-		
-		panelTC.add(txtquocgia);
-		
-		String country[]= {"Viet Nam" , "US"};
-		JComboBox cbbquocgia = new JComboBox(country);
-		cbbquocgia.setEditable(true);
-		cbbquocgia.setBounds(0, 0, 161, 20);
-		panelTC.add(cbbquocgia);
-		
-		JButton btnTC = new JButton("Tra c\u1EE9u");
-		btnTC.setBackground(Color.LIGHT_GRAY);
-		btnTC.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnTC.setBorder(new LineBorder(new Color(0, 0, 0)));
-		btnTC.setBounds(167, 0, 89, 20);
-		btnTC.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				
-			}
-		});
-		panelTC.add(btnTC);
 		JPanel panelthongtinquocgia = new JPanel();
 		panelthongtinquocgia.setBackground(Color.WHITE);
 		panelthongtinquocgia.setLayout(null);
@@ -169,7 +140,7 @@ public class NationJframe extends JFrame {
 		
 		JLabel lbltiente = new JLabel("Valuetiente");
 		lbltiente.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lbltiente.setBounds(72, 61, 63, 15);
+		lbltiente.setBounds(72, 61, 149, 15);
 		panelthongtinquocgia.add(lbltiente);
 		
 		JLabel lblthudo = new JLabel("Valuethudo");
@@ -179,7 +150,7 @@ public class NationJframe extends JFrame {
 		
 		JLabel lblchauluc = new JLabel("Valuechauluc");
 		lblchauluc.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblchauluc.setBounds(72, 111, 71, 15);
+		lblchauluc.setBounds(72, 111, 149, 15);
 		panelthongtinquocgia.add(lblchauluc);
 		
 		JLabel lblngonngu = new JLabel("Valuengonngu");
@@ -201,7 +172,7 @@ public class NationJframe extends JFrame {
 		JTextArea txttiepgiap = new JTextArea();
 		txttiepgiap.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		txttiepgiap.setText("Valuetiepgiap");
-		txttiepgiap.setBounds(71, 186, 112, 35);
+		txttiepgiap.setBounds(71, 186, 211, 34);
 		panelthongtinquocgia.add(txttiepgiap);
 		
 		JLabel lblToaDoQuocGia = new JLabel("T\u1ECDa \u0111\u1ED9:");
@@ -214,7 +185,60 @@ public class NationJframe extends JFrame {
 		lbltoadoquocgia.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lbltoadoquocgia.setBounds(72, 224, 104, 15);
 		panelthongtinquocgia.add(lbltoadoquocgia);
+		JPanel panelTC = new JPanel();
+		panelTC.setBackground(Color.WHITE);
+		panelTC.setBounds(35, 38, 256, 50);		
+		panelTC.setLayout(null);
+		panel_tong.add(panelTC);
 		
+		
+		
+		txtquocgia = new JTextField();
+		txtquocgia.setBounds(0, 30, 161, 20);		
+		txtquocgia.setEditable(false);
+		txtquocgia.setColumns(10);	
+		
+		panelTC.add(txtquocgia);
+		
+		
+		String country[]= {"Viet Nam" , "US"};
+		String kq = transport.receive(in);
+		StringTokenizer tk=new StringTokenizer(kq,";");
+		JComboBox cbbquocgia = new JComboBox();
+		for(;tk.hasMoreTokens();) {
+			cbbquocgia.addItem(tk.nextToken());
+		}
+		cbbquocgia.setBounds(0, 0, 161, 20);
+		panelTC.add(cbbquocgia);
+		
+		JButton btnTC = new JButton("Tra c\u1EE9u");
+		btnTC.setBackground(Color.LIGHT_GRAY);
+		btnTC.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnTC.setBorder(new LineBorder(new Color(0, 0, 0)));
+		btnTC.setBounds(167, 0, 89, 20);
+		btnTC.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				transport.send(out, ""+cbbquocgia.getSelectedIndex());
+//				System.out.print(transport.receive(inobj));
+				Country ct;
+				ct=(Country)transport.receive(inobj);
+				lbldanso.setText(""+ct.getDanSo());
+				lbldientich.setText(""+ct.getDienTich());
+				lbltiente.setText(ct.getTienTe());
+				lblthudo.setText(ct.getThuDo());
+				lblchauluc.setText(ct.getChauLuc());
+				lblngonngu.setText(ct.getNgonNgu());
+				lblmuigio.setText(ct.getMuiGio());
+				txttiepgiap.setText(ct.getTiepGiap());
+				lbltoadoquocgia.setText(ct.getToaDo());
+				lblimage.setText(ct.getQuocKy());
+//				int a = ct.getDanSo();
+//				String b=""+a;
+//				lblDanSo.setText(b);
+				
+			}
+		});
+		panelTC.add(btnTC);
 		JPanel panelthongtinthanhpho = new JPanel();
 		panelthongtinthanhpho.setBackground(Color.WHITE);
 		panelthongtinthanhpho.setLayout(null);

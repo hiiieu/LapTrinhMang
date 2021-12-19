@@ -110,10 +110,10 @@ public class Menu {
 			btnCountry.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-						transport.send(out, "nation");
+						transport.send(out, "nation");  
 						//String kq=transport.receive(in);
-						SinhVien sv;
-							sv = (SinhVien)transport.receive(InObj);
+//						SinhVien sv;
+//							sv = (SinhVien)transport.receive(InObj);
 							//JOptionPane.showConfirmDialog(null, sv.getLop() + sv.getTen(), "Be ok!", JOptionPane.DEFAULT_OPTION);
 							//inObj để gửi object, in out để gửi,nhận string,transport để dùng hàm gửi nhận.
 							NationJframe jf = new NationJframe(InObj, in, out, transport);
