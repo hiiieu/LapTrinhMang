@@ -22,7 +22,9 @@ import javax.swing.JOptionPane;
 
 import DTO.Country;
 import DTO.SinhVien;
+import FetchInfo.ListCity;
 import FetchInfo.ListCountry;
+import FetchInfo.WeatherInfo;
 import MaHoa.MaHoaCongKhai;
 import MaHoa.MaHoaDoiXung;
 
@@ -71,6 +73,8 @@ public class Server {
 				do {
 						String choose = transport.receive(in);
 						ListCountry ls = new ListCountry();
+						ListCity lsc=new ListCity();
+						WeatherInfo wt=new WeatherInfo();
 						if(choose.equals("Menuclose")) {
 								System.out.println("client đã thoát");
 								break;
@@ -89,7 +93,9 @@ public class Server {
 		//						//gửi danh sách quốc gia về client để đổ vào combobox
 								
 								ls.init();
+								
 								transport.send(out, ls.ListNameToString());
+								transport.send(out, lsc.ListName());
 						}
 						if(choose.equals("tracuuquocgia")) {								
 								int i = 0;							
@@ -97,7 +103,9 @@ public class Server {
 								transport.send(output, ls.getInfoByID(i));
 						}
 						if(choose.equals("tracuuthanhpho")) {
-								transport.send(out, "OKE");
+								String a= transport.receive(in);
+								System.out.print(a);
+								transport.send(output, wt.getWeather(a));
 						}
 		//						sendToClient(out, lstCountry.getListName());//trả về dãy string ngăn cách bởi dấu ,
 		//						//gửi danh sách thành phố

@@ -31,7 +31,7 @@ public class ListCity {
 				if(jobj.has("cities")) {
 					JSONArray cities = jobj.getJSONArray("cities");
 					for(int i = 0; i < cities.length();i++) {
-						tenthanhpho+=(cities.getString(i)+ ",");
+						tenthanhpho+=(cities.getString(i)+ ";");
 					}					
 				}
 				City ci=new City (id,tenquocgia,tenthanhpho);
@@ -64,12 +64,20 @@ public class ListCity {
 			}
 			return null;
 	  }
-	public static void main(String[] args) {
+	public String ListName() {
 		ListCity lsct= new ListCity();
 		lsct.getLstThanhPho();
-		for (City i : lstCity) {
-			System.out.println(i.getTenQuocGia()+",id: "+i.getId()+"\nTen thanh pho: "+i.getTenThanhPho()+"\n");
+		String lst="";
+		for(City i : lstCity) {
+			lst+=i.getTenThanhPho();
 		}
-		System.out.println("so luong quoc gia: "+lstCity.size());
+		
+		return lst;
+	}
+	public static void main(String[] args) {
+		ListCity lsct= new ListCity();
+		
+		System.out.print(lsct.ListName());
+		
 	}
 }

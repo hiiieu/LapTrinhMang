@@ -1,6 +1,9 @@
 package DTO;
 
-public class City {
+import java.io.Serializable;
+
+public class City implements Serializable{
+	private static final long serialVersionUID = 9L;
 	private String tenThanhPho;
 	private String tenQuocGia;
 	private int id;

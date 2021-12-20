@@ -1,12 +1,15 @@
 package DTO;
 
-public class Weather {
+import java.io.Serializable;
+
+public class Weather  implements Serializable {
+	private static final long serialVersionUID = 10L;
 	private int id;
 	private int doam;
 	private String mua;
-	private float nhietdo;
+	private double nhietdo;
 	
-	public Weather(int doam, String mua, float nhietdo) {
+	public Weather(int doam, String mua, double nhietdo) {
 		super();
 		
 		this.doam=doam;
@@ -31,10 +34,10 @@ public class Weather {
 	public void setMua(String mua) {
 		this.mua=mua;
 	}
-	public float getNhietDo() {
+	public double getNhietDo() {
 		return nhietdo;
 	}
-	public void setNhietDo(float nhietdo) {
+	public void setNhietDo(double nhietdo) {
 		this.nhietdo=nhietdo;
 	}
 }

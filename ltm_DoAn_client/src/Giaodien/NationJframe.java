@@ -6,13 +6,17 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
+import java.net.MalformedURLException;
 import java.net.Socket;
+import java.net.URL;
 import java.util.StringTokenizer;
 
 import javax.swing.ImageIcon;
@@ -24,13 +28,17 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 
 import Client.Transport;
 import DTO.Country;
+import DTO.Weather;
 import MaHoa.MaHoaDoiXung;
 
+import javax.imageio.ImageIO;
 import javax.swing.Icon;
 
 
@@ -42,6 +50,7 @@ public class NationJframe extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtquocgia;
 	private JTextField txtthanhpho;
+	private JPanel panelthongtinquocgia;
 	
 	/**
 	 * Launch the application.
@@ -81,7 +90,7 @@ public class NationJframe extends JFrame {
 		contentPane.add(panel_tong);
 		
 		
-		JPanel panelthongtinquocgia = new JPanel();
+		panelthongtinquocgia = new JPanel();
 		panelthongtinquocgia.setBackground(Color.WHITE);
 		panelthongtinquocgia.setLayout(null);
 		panelthongtinquocgia.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -163,11 +172,7 @@ public class NationJframe extends JFrame {
 		lblmuigio.setBounds(72, 161, 65, 15);
 		panelthongtinquocgia.add(lblmuigio);
 		
-		JLabel lblimage = new JLabel((Icon) null);
-		lblimage.setBackground(Color.WHITE);
-		lblimage.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblimage.setBounds(192, 11, 279, 209);
-		panelthongtinquocgia.add(lblimage);
+		
 		
 		JTextArea txttiepgiap = new JTextArea();
 		txttiepgiap.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -201,7 +206,7 @@ public class NationJframe extends JFrame {
 		panelTC.add(txtquocgia);
 		
 		
-		String country[]= {"Viet Nam" , "US"};
+		
 		String kq = transport.receive(in);
 		StringTokenizer tk=new StringTokenizer(kq,";");
 		JComboBox cbbquocgia = new JComboBox();
@@ -210,6 +215,12 @@ public class NationJframe extends JFrame {
 		}
 		cbbquocgia.setBounds(0, 0, 161, 20);
 		panelTC.add(cbbquocgia);
+		
+//		JLabel lblimage = new JLabel((Icon) null);
+//		lblimage.setBackground(Color.WHITE);
+//		lblimage.setFont(new Font("Tahoma", Font.PLAIN, 12));
+//		lblimage.setBounds(192, 11, 279, 209);
+//		panelthongtinquocgia.add(lblimage);
 		
 		JButton btnTC = new JButton("Tra c\u1EE9u");
 		btnTC.setBackground(Color.LIGHT_GRAY);
@@ -220,7 +231,6 @@ public class NationJframe extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				transport.send(out, "tracuuquocgia");
 				transport.send(out, ""+cbbquocgia.getSelectedIndex());
-//				System.out.print(transport.receive(inobj));
 				Country ct;
 				ct=(Country)transport.receive(inobj);
 				lbldanso.setText(""+ct.getDanSo());
@@ -232,14 +242,16 @@ public class NationJframe extends JFrame {
 				lblmuigio.setText(ct.getMuiGio());
 				txttiepgiap.setText(ct.getTiepGiap());
 				lbltoadoquocgia.setText(ct.getToaDo());
-				lblimage.setText(ct.getQuocKy());
+//				lblimage.setText(ct.getQuocKy());
+				Image(ct.getQuocKy());
 //				int a = ct.getDanSo();
 //				String b=""+a;
 //				lblDanSo.setText(b);
 				
 			}
-		});
+		});		
 		panelTC.add(btnTC);
+		
 		JPanel panelthongtinthanhpho = new JPanel();
 		panelthongtinthanhpho.setBackground(Color.WHITE);
 		panelthongtinthanhpho.setLayout(null);
@@ -328,33 +340,59 @@ public class NationJframe extends JFrame {
 		panelTCTP.setLayout(null);
 		panel_tong.add(panelTCTP);
 		
-		JButton btnTCTP = new JButton("Tra c\u1EE9u");
-		btnTCTP.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnTCTP.setBackground(Color.LIGHT_GRAY);
-		btnTCTP.setBounds(167, 0, 89, 20);
-		panelTCTP.add(btnTCTP);
+		
 		
 		txtthanhpho = new JTextField();
 		txtthanhpho.setBounds(0, 30, 161, 20);		
 		txtthanhpho.setEditable(false);
-		txtthanhpho.setColumns(10);		
+		txtthanhpho.setColumns(10);
+		panelTCTP.add(txtthanhpho);
+		
+		
+		String kq1=transport.receive(in);
+		StringTokenizer tk1=new StringTokenizer(kq1,";");
+		JComboBox cbbthanhpho = new JComboBox();
+		for(;tk1.hasMoreTokens();) {
+			cbbthanhpho.addItem(tk1.nextToken());
+		}
+		cbbthanhpho.setBounds(0, 0, 161, 20);		
+		panelTCTP.add(cbbthanhpho);
+		
+		JButton btnTCTP = new JButton("Tra c\u1EE9u");
+		btnTCTP.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnTCTP.setBackground(Color.LIGHT_GRAY);
+		btnTCTP.setBounds(167, 0, 89, 20);
 		btnTCTP.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				transport.send(out, "tracuuthanhpho");
-				System.out.print(transport.receive(in));
+				transport.send(out, ""+cbbthanhpho.getSelectedItem());
+				
+				Weather wt;
+				wt=(Weather)transport.receive(inobj);
+				lblnhietdo.setText(""+wt.getNhietDo()+"°C");
+				lbldoam.setText(""+wt.getDoAm());
+				lblmua.setText(wt.getMua());
 			}
 		});
-		panelTCTP.add(txtthanhpho);
-		
-		String city[]= {"Ho Chi Minh" , "Ha Noi" , "Los Angeles", "Bùm bùm"};
-		
-		JComboBox cbbthanhpho = new JComboBox(city);
-		cbbthanhpho.setBounds(0, 0, 161, 20);		
-		panelTCTP.add(cbbthanhpho);
+		panelTCTP.add(btnTCTP);
 		
 		JLabel lblTraCuuThongTinQuocGia = new JLabel("Tra C\u1EE9u Th\u00F4ng Tin Qu\u1ED1c Gia");
 		lblTraCuuThongTinQuocGia.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblTraCuuThongTinQuocGia.setBounds(10, 11, 207, 20);
 		contentPane.add(lblTraCuuThongTinQuocGia);
+	}
+	public void Image(String s) {
+		String path = s;
+		try {
+			
+			URL url = new URL(path);
+			BufferedImage image = ImageIO.read(url);
+			JLabel img = new JLabel(new ImageIcon(image));
+			img.setBounds(192, 11, 279, 209);
+			panelthongtinquocgia.add(img);
+			}catch(Exception e1) {
+				System.out.print(e1);
+			}
+		
 	}
 }
