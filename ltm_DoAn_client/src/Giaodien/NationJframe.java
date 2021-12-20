@@ -218,6 +218,7 @@ public class NationJframe extends JFrame {
 		btnTC.setBounds(167, 0, 89, 20);
 		btnTC.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				transport.send(out, "tracuuquocgia");
 				transport.send(out, ""+cbbquocgia.getSelectedIndex());
 //				System.out.print(transport.receive(inobj));
 				Country ct;
@@ -339,6 +340,8 @@ public class NationJframe extends JFrame {
 		txtthanhpho.setColumns(10);		
 		btnTCTP.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				transport.send(out, "tracuuthanhpho");
+				System.out.print(transport.receive(in));
 			}
 		});
 		panelTCTP.add(txtthanhpho);
@@ -346,7 +349,6 @@ public class NationJframe extends JFrame {
 		String city[]= {"Ho Chi Minh" , "Ha Noi" , "Los Angeles", "Bùm bùm"};
 		
 		JComboBox cbbthanhpho = new JComboBox(city);
-		cbbthanhpho.setEditable(true);
 		cbbthanhpho.setBounds(0, 0, 161, 20);		
 		panelTCTP.add(cbbthanhpho);
 		

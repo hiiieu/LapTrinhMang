@@ -70,6 +70,7 @@ public class Server {
 				Transport transport = new Transport(aes);//truyền aes để thực hiện mã và giải
 				do {
 						String choose = transport.receive(in);
+						ListCountry ls = new ListCountry();
 						if(choose.equals("Menuclose")) {
 								System.out.println("client đã thoát");
 								break;
@@ -86,13 +87,18 @@ public class Server {
 								
 		//						//quốc gia (class nation)
 		//						//gửi danh sách quốc gia về client để đổ vào combobox
-								ListCountry ls = new ListCountry();
+								
 								ls.init();
 								transport.send(out, ls.ListNameToString());
-								int i = 0;
-								while(i != -1) {
+						}
+						if(choose.equals("tracuuquocgia")) {								
+								int i = 0;							
 								i= Integer.parseInt(transport.receive(in));
-								transport.send(output, ls.getInfoByID(i));}
+								transport.send(output, ls.getInfoByID(i));
+						}
+						if(choose.equals("tracuuthanhpho")) {
+								transport.send(out, "OKE");
+						}
 		//						sendToClient(out, lstCountry.getListName());//trả về dãy string ngăn cách bởi dấu ,
 		//						//gửi danh sách thành phố
 							
@@ -117,7 +123,7 @@ public class Server {
 		//								//sendToClient(outObj, country.getCityById() );
 		//						}
 								
-						}
+						
 						//Thread.sleep(5000);
 				}while(true);
 				socketClient.close();
