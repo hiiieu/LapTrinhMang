@@ -34,16 +34,20 @@ public class WeatherInfo {
 			int doam ;
 			String mua = null;
 			double nhietdo;		
-			
+			String country;
+			String toado;
 			JSONObject jobj=array.getJSONObject(0);				
 			mua = jobj.getString("main");	
-						
+			
+			country = jsonWeather.getJSONObject("sys").getString("country");
+			
 			nhietdo = jsonWeather.getJSONObject("main").getFloat("temp");			
-			nhietdo =  nhietdo - 273.15;
-	//		mua = jsonWeather.getJSONArray("weather").getString(0);
+			
 			doam = jsonWeather.getJSONObject("main").getInt("humidity");
-//			System.out.print(nhietdo+"\n"+mua+"\n"+doam+"%\n");
-			w = new Weather(doam, mua, nhietdo);
+			
+			toado = jsonWeather.getJSONObject("coord").getDouble("lat") +", "+ jsonWeather.getJSONObject("coord").getDouble("lon");
+			
+			w = new Weather(doam, mua, nhietdo,toado,country);
 			
 		}catch(Exception e) {
 			System.out.println("Ko co city");
@@ -78,19 +82,19 @@ public class WeatherInfo {
 	public static String replaceSpace(String url) {
 		return url.trim().replaceAll(" ", "%20");
 	}
-//	public static void main(String[] args) {
-//		@SuppressWarnings("resource")
-//		Scanner sc = new Scanner(System.in);
-//		WeatherInfo wi= new WeatherInfo();	
-//		String city = "";
-//		
-//		
-//		while (true) {		
-//		System.out.print("Nhap city: ");		
-//		city = sc.nextLine();		
-//		city = replaceSpace(city);
-//		if(city.equals ("bye")) break;		
-//		wi.getWeather(city);
-//		}	
-//	}
+	public static void main(String[] args) {
+		@SuppressWarnings("resource")
+		Scanner sc = new Scanner(System.in);
+		WeatherInfo wi= new WeatherInfo();	
+		String city = "";
+		
+		
+		while (true) {		
+		System.out.print("Nhap city: ");		
+		city = sc.nextLine();		
+		city = replaceSpace(city);
+		if(city.equals ("bye")) break;		
+		wi.getWeather(city);
+		}	
+	}
 }

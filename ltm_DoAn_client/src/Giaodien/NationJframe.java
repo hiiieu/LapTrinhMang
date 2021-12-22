@@ -33,6 +33,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+
 import Client.Transport;
 import DTO.Country;
 import DTO.Weather;
@@ -51,6 +53,7 @@ public class NationJframe extends JFrame {
 	private JTextField txtquocgia;
 	private JTextField txtthanhpho;
 	private JPanel panelthongtinquocgia;
+	private JPanel panel;
 	
 	/**
 	 * Launch the application.
@@ -177,7 +180,7 @@ public class NationJframe extends JFrame {
 		JTextArea txttiepgiap = new JTextArea();
 		txttiepgiap.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		txttiepgiap.setText("Valuetiepgiap");
-		txttiepgiap.setBounds(71, 186, 211, 34);
+		txttiepgiap.setBounds(71, 186, 188, 34);
 		panelthongtinquocgia.add(txttiepgiap);
 		
 		JLabel lblToaDoQuocGia = new JLabel("T\u1ECDa \u0111\u1ED9:");
@@ -190,6 +193,10 @@ public class NationJframe extends JFrame {
 		lbltoadoquocgia.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lbltoadoquocgia.setBounds(72, 224, 104, 15);
 		panelthongtinquocgia.add(lbltoadoquocgia);
+		
+		panel = new JPanel();
+		panel.setBounds(260, 9, 211, 211);
+		panelthongtinquocgia.add(panel);
 		JPanel panelTC = new JPanel();
 		panelTC.setBackground(Color.WHITE);
 		panelTC.setBounds(35, 38, 256, 50);		
@@ -210,9 +217,11 @@ public class NationJframe extends JFrame {
 		String kq = transport.receive(in);
 		StringTokenizer tk=new StringTokenizer(kq,";");
 		JComboBox cbbquocgia = new JComboBox();
+		cbbquocgia.setEditable(true);
 		for(;tk.hasMoreTokens();) {
 			cbbquocgia.addItem(tk.nextToken());
 		}
+		AutoCompleteDecorator.decorate(cbbquocgia);
 		cbbquocgia.setBounds(0, 0, 161, 20);
 		panelTC.add(cbbquocgia);
 		
@@ -243,10 +252,21 @@ public class NationJframe extends JFrame {
 				txttiepgiap.setText(ct.getTiepGiap());
 				lbltoadoquocgia.setText(ct.getToaDo());
 //				lblimage.setText(ct.getQuocKy());
-				Image(ct.getQuocKy());
-//				int a = ct.getDanSo();
-//				String b=""+a;
-//				lblDanSo.setText(b);
+//				Image(ct.getQuocKy());
+				JLabel img = new JLabel();
+				
+				//khúc này lỗi nhé, ra hình mà chưa đổi khi chọn mới dc
+				String path = ct.getQuocKy();
+				try {
+					
+					URL url = new URL(path);
+					BufferedImage image = ImageIO.read(url);
+					img = new JLabel(new ImageIcon(image));
+					img.setBounds(0, 0, 0, 0);
+					panel.add(img);
+					}catch(Exception e1) {
+						System.out.print(e1);
+					}
 				
 			}
 		});		
@@ -352,9 +372,11 @@ public class NationJframe extends JFrame {
 		String kq1=transport.receive(in);
 		StringTokenizer tk1=new StringTokenizer(kq1,";");
 		JComboBox cbbthanhpho = new JComboBox();
+		cbbthanhpho.setEditable(true);
 		for(;tk1.hasMoreTokens();) {
 			cbbthanhpho.addItem(tk1.nextToken());
 		}
+		AutoCompleteDecorator.decorate(cbbthanhpho);
 		cbbthanhpho.setBounds(0, 0, 161, 20);		
 		panelTCTP.add(cbbthanhpho);
 		
@@ -372,6 +394,8 @@ public class NationJframe extends JFrame {
 				lblnhietdo.setText(""+wt.getNhietDo()+"°C");
 				lbldoam.setText(""+wt.getDoAm());
 				lblmua.setText(wt.getMua());
+				lbltoadothanhpho.setText(wt.getToaDo());
+				lblquocgia.setText(wt.getCountry());
 			}
 		});
 		panelTCTP.add(btnTCTP);
@@ -388,8 +412,8 @@ public class NationJframe extends JFrame {
 			URL url = new URL(path);
 			BufferedImage image = ImageIO.read(url);
 			JLabel img = new JLabel(new ImageIcon(image));
-			img.setBounds(192, 11, 279, 209);
-			panelthongtinquocgia.add(img);
+			img.setBounds(0, 0, 0, 0);
+			panel.add(img);
 			}catch(Exception e1) {
 				System.out.print(e1);
 			}
