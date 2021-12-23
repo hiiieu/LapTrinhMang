@@ -42,6 +42,7 @@ import MaHoa.MaHoaDoiXung;
 
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
+import javax.swing.border.BevelBorder;
 
 
 public class NationJframe extends JFrame {
@@ -77,7 +78,7 @@ public class NationJframe extends JFrame {
 
 	public NationJframe(InputStream inobj,BufferedReader in,BufferedWriter out,Transport transport) {
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		setBounds(100, 100, 968, 516);
+		setBounds(100, 100, 1045, 516);
 		contentPane = new JPanel();
 		contentPane.setName("aaa");
 		contentPane.setBackground(Color.WHITE);
@@ -88,7 +89,7 @@ public class NationJframe extends JFrame {
 		JPanel panel_tong = new JPanel();
 		panel_tong.setBackground(Color.WHITE);
 		panel_tong.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel_tong.setBounds(0, 35, 952, 404);		
+		panel_tong.setBounds(0, 35, 1029, 404);		
 		panel_tong.setLayout(null);
 		contentPane.add(panel_tong);
 		
@@ -97,7 +98,7 @@ public class NationJframe extends JFrame {
 		panelthongtinquocgia.setBackground(Color.WHITE);
 		panelthongtinquocgia.setLayout(null);
 		panelthongtinquocgia.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		panelthongtinquocgia.setBounds(35, 117, 481, 248);
+		panelthongtinquocgia.setBounds(35, 117, 603, 248);
 		panel_tong.add(panelthongtinquocgia);
 		
 		JLabel lblDanSo = new JLabel("D\u00E2n s\u1ED1:");
@@ -197,7 +198,9 @@ public class NationJframe extends JFrame {
 		panelthongtinquocgia.add(lbltoadoquocgia);
 		
 		panel = new JPanel();
-		panel.setBounds(260, 9, 211, 211);
+		panel.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
+		panel.setBackground(Color.WHITE);
+		panel.setBounds(260, 9, 333, 211);
 		panelthongtinquocgia.add(panel);
 		JPanel panelTC = new JPanel();
 		panelTC.setBackground(Color.WHITE);
@@ -285,7 +288,7 @@ public class NationJframe extends JFrame {
 		panelthongtinthanhpho.setBackground(Color.WHITE);
 		panelthongtinthanhpho.setLayout(null);
 		panelthongtinthanhpho.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		panelthongtinthanhpho.setBounds(526, 117, 371, 248);
+		panelthongtinthanhpho.setBounds(648, 117, 371, 248);
 		panel_tong.add(panelthongtinthanhpho);
 		
 		JLabel lblDanSoThanhPho = new JLabel("D\u00E2n s\u1ED1 c\u1EE7a th\u00E0nh ph\u1ED1:");
@@ -365,7 +368,7 @@ public class NationJframe extends JFrame {
 		
 		JPanel panelTCTP = new JPanel();
 		panelTCTP.setBackground(Color.WHITE);
-		panelTCTP.setBounds(526, 38, 256, 50);		
+		panelTCTP.setBounds(648, 38, 256, 50);		
 		panelTCTP.setLayout(null);
 		panel_tong.add(panelTCTP);
 		
