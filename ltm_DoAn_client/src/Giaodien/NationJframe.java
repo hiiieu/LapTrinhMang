@@ -181,6 +181,8 @@ public class NationJframe extends JFrame {
 		txttiepgiap.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		txttiepgiap.setText("Valuetiepgiap");
 		txttiepgiap.setBounds(71, 186, 188, 34);
+		txttiepgiap.setLineWrap(true);
+		txttiepgiap.setWrapStyleWord(true);
 		panelthongtinquocgia.add(txttiepgiap);
 		
 		JLabel lblToaDoQuocGia = new JLabel("T\u1ECDa \u0111\u1ED9:");
@@ -240,35 +242,40 @@ public class NationJframe extends JFrame {
 		btnTC.setBounds(167, 0, 89, 20);
 		btnTC.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				transport.send(out, "tracuuquocgia");
-				transport.send(out, ""+cbbquocgia.getSelectedIndex());
-				Country ct;
-				ct=(Country)transport.receive(inobj);
-				lbldanso.setText(""+ct.getDanSo());
-				lbldientich.setText(""+ct.getDienTich());
-				lbltiente.setText(ct.getTienTe());
-				lblthudo.setText(ct.getThuDo());
-				lblchauluc.setText(ct.getChauLuc());
-				lblngonngu.setText(ct.getNgonNgu());
-				lblmuigio.setText(ct.getMuiGio());
-				txttiepgiap.setText(ct.getTiepGiap());
-				lbltoadoquocgia.setText(ct.getToaDo());
-//				lblimage.setText(ct.getQuocKy());
-//				Image(ct.getQuocKy());
-				
-				
-				//khúc này lỗi nhé, ra hình mà chưa đổi khi chọn mới dc
-				String path = ct.getQuocKy();
-				try {
-					
-					URL url = new URL(path);
-					BufferedImage image = ImageIO.read(url);
-					img.setIcon(new ImageIcon(image));
-					img.setBounds(0, 0, 0, 0);
-					
-					}catch(Exception e1) {
-						System.out.print(e1);
-					}
+				int n = cbbquocgia.getSelectedIndex();
+				if(n>=0 && n<250) {
+						transport.send(out, "tracuuquocgia");
+						transport.send(out, ""+cbbquocgia.getSelectedIndex());
+						Country ct;
+						ct=(Country)transport.receive(inobj);
+						lbldanso.setText(""+ct.getDanSo());
+						lbldientich.setText(""+ct.getDienTich());
+						lbltiente.setText(ct.getTienTe());
+						lblthudo.setText(ct.getThuDo());
+						lblchauluc.setText(ct.getChauLuc());
+						lblngonngu.setText(ct.getNgonNgu());
+						lblmuigio.setText(ct.getMuiGio());
+						txttiepgiap.setText(ct.getTiepGiap());
+						lbltoadoquocgia.setText(ct.getToaDo());
+		//				lblimage.setText(ct.getQuocKy());
+		//				Image(ct.getQuocKy());
+						
+						
+						//khúc này lỗi nhé, ra hình mà chưa đổi khi chọn mới dc
+						String path = ct.getQuocKy();
+						try {
+							
+							URL url = new URL(path);
+							BufferedImage image = ImageIO.read(url);
+							img.setIcon(new ImageIcon(image));
+							img.setBounds(0, 0, 0, 0);
+							
+							}catch(Exception e1) {
+								System.out.print(e1);
+							}
+				}else {
+					JOptionPane.showMessageDialog(null, "sai tên nước");
+				}
 				
 			}
 		});		
