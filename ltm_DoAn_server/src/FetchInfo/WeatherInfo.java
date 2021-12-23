@@ -41,8 +41,9 @@ public class WeatherInfo {
 			
 			country = jsonWeather.getJSONObject("sys").getString("country");
 			
-			nhietdo = jsonWeather.getJSONObject("main").getFloat("temp");			
-			
+			nhietdo = jsonWeather.getJSONObject("main").getFloat("temp");	
+			nhietdo=(double)Math.round((nhietdo-275.15)*100)/100;
+			System.out.print(nhietdo);
 			doam = jsonWeather.getJSONObject("main").getInt("humidity");
 			
 			toado = jsonWeather.getJSONObject("coord").getDouble("lat") +", "+ jsonWeather.getJSONObject("coord").getDouble("lon");

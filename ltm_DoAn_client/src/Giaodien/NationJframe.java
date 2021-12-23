@@ -230,6 +230,8 @@ public class NationJframe extends JFrame {
 //		lblimage.setFont(new Font("Tahoma", Font.PLAIN, 12));
 //		lblimage.setBounds(192, 11, 279, 209);
 //		panelthongtinquocgia.add(lblimage);
+		JLabel img = new JLabel();
+		panel.add(img);
 		
 		JButton btnTC = new JButton("Tra c\u1EE9u");
 		btnTC.setBackground(Color.LIGHT_GRAY);
@@ -253,7 +255,7 @@ public class NationJframe extends JFrame {
 				lbltoadoquocgia.setText(ct.getToaDo());
 //				lblimage.setText(ct.getQuocKy());
 //				Image(ct.getQuocKy());
-				JLabel img = new JLabel();
+				
 				
 				//khúc này lỗi nhé, ra hình mà chưa đổi khi chọn mới dc
 				String path = ct.getQuocKy();
@@ -261,9 +263,9 @@ public class NationJframe extends JFrame {
 					
 					URL url = new URL(path);
 					BufferedImage image = ImageIO.read(url);
-					img = new JLabel(new ImageIcon(image));
+					img.setIcon(new ImageIcon(image));
 					img.setBounds(0, 0, 0, 0);
-					panel.add(img);
+					
 					}catch(Exception e1) {
 						System.out.print(e1);
 					}
