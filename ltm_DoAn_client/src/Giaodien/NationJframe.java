@@ -198,9 +198,9 @@ public class NationJframe extends JFrame {
 		panelthongtinquocgia.add(lbltoadoquocgia);
 		
 		panel = new JPanel();
-		panel.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
+		panel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		panel.setBackground(Color.WHITE);
-		panel.setBounds(260, 9, 333, 211);
+		panel.setBounds(260, 9, 333, 229);
 		panelthongtinquocgia.add(panel);
 		JPanel panelTC = new JPanel();
 		panelTC.setBackground(Color.WHITE);

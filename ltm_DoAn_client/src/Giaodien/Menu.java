@@ -95,7 +95,7 @@ public class Menu {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 							transport.send(out, "covid");
-							String kq=transport.receive(in);
+							
 							//JOptionPane.showConfirmDialog(null, kq, "Be ok!", JOptionPane.DEFAULT_OPTION);	
 							//inObj để gửi object, in out để gửi,nhận string,transport để dùng hàm gửi nhận.
 							GiaodienCovid cv = new GiaodienCovid(InObj, in, out, transport);

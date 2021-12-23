@@ -7,7 +7,11 @@ import java.awt.Font;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStream;
+import java.net.URL;
+import java.util.StringTokenizer;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -18,12 +22,21 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import Client.Transport;
+import DTO.Country;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+
+import javax.swing.JComboBox;
+import javax.swing.border.EtchedBorder;
 
 public class GiaodienCovid extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtCountry;
 	private JTextField txtDate;
+	JPanel CountryFlag;
 
 	/**
 	 * Launch the application.
@@ -77,8 +90,45 @@ public class GiaodienCovid extends JFrame {
 		txtDate.setColumns(10);
 		txtDate.setBounds(375, 122, 168, 31);
 		contentPane.add(txtDate);
+		JComboBox comboBox = new JComboBox();
+		comboBox.setBounds(375, 164, 168, 22);
+		String kq=tranport.receive(in);
+		StringTokenizer tk=new StringTokenizer(kq,";");
+		for(;tk.hasMoreTokens();) {
+			comboBox.addItem(tk.nextToken());
+		}
+		CountryFlag = new JPanel();
+		CountryFlag.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		CountryFlag.setBounds(55, 65, 170, 96);
+		contentPane.add(CountryFlag);
+		CountryFlag.setLayout(new BorderLayout(0, 0));
 		
+		JLabel lblCountryFlag = new JLabel();
+		CountryFlag.add(lblCountryFlag);
+		
+		contentPane.add(comboBox);
 		JButton btnSearch = new JButton("Search");
+		btnSearch.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				tranport.send(out,"Search");
+				tranport.send(out, ""+comboBox.getSelectedIndex());
+				Country cts;
+				cts=(Country)tranport.receive(inObj);
+//				System.out.print("haa");
+				String path = cts.getQuocKy();
+				try {
+					
+					URL url = new URL(path);
+					BufferedImage image = ImageIO.read(url);
+					lblCountryFlag.setIcon(new ImageIcon(image));
+					lblCountryFlag.setBounds(0, 0, 0, 0);
+					
+					}catch(Exception e1) {
+						System.out.print(e1);
+					}
+			}
+		});
 		btnSearch.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnSearch.setBounds(575, 89, 89, 45);
 		contentPane.add(btnSearch);
@@ -89,7 +139,7 @@ public class GiaodienCovid extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new LineBorder(Color.BLACK));
-		panel.setBounds(55, 212, 609, 290);
+		panel.setBounds(55, 223, 609, 290);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -118,15 +168,9 @@ public class GiaodienCovid extends JFrame {
 		lblNewLabel_1_4.setBounds(42, 173, 106, 17);
 		panel.add(lblNewLabel_1_4);
 		
-		JLabel lblNewLabel_1_5 = new JLabel("Hình quốc kỳ:");
-		lblNewLabel_1_5.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNewLabel_1_5.setBounds(426, 23, 106, 17);
-		panel.add(lblNewLabel_1_5);
 		
-		JPanel CountryFlag = new JPanel();
-		CountryFlag.setBorder(new LineBorder(new Color(0, 0, 0)));
-		CountryFlag.setBounds(55, 65, 170, 96);
-		contentPane.add(CountryFlag);
+		
+		
 		
 		
 		
