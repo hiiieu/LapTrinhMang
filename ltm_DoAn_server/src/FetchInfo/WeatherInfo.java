@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class WeatherInfo {
 		Weather w = null;
 		try {
 		String apiWeatherInfo="https://api.openweathermap.org/data/2.5/weather?q="+city+"&appid="+apikey;	
-		JSONObject jsonWeather = new JSONObject(getJson(apiWeatherInfo));		
+		JSONObject jsonWeather = new JSONObject(getJsonMoi(apiWeatherInfo));		
 		JSONArray array = jsonWeather.getJSONArray("weather");		
 		
 			int doam ;
@@ -43,7 +44,7 @@ public class WeatherInfo {
 			
 			nhietdo = jsonWeather.getJSONObject("main").getFloat("temp");	
 			nhietdo=(double)Math.round((nhietdo-275.15)*100)/100;
-			System.out.print(nhietdo);
+			
 			doam = jsonWeather.getJSONObject("main").getInt("humidity");
 			
 			toado = jsonWeather.getJSONObject("coord").getDouble("lat") +", "+ jsonWeather.getJSONObject("coord").getDouble("lon");
@@ -51,10 +52,38 @@ public class WeatherInfo {
 			w = new Weather(doam, mua, nhietdo,toado,country);
 			
 		}catch(Exception e) {
-			System.out.println("Ko co city");
+			System.out.println("Khong co du lieu cua city\n");
 		}
 		return w;	
 	}
+	public String getJsonMoi(String s) {
+		try {
+			HttpURLConnection httpConn = null;
+			URL url = new URL(s);   
+			URLConnection connection = url.openConnection();
+			httpConn = (HttpURLConnection) connection;
+			httpConn.setRequestProperty("Accept", "application/json");
+			httpConn.setRequestMethod("GET");
+			httpConn.setRequestProperty("charset", "utf-8");
+			BufferedReader in;
+			int responseCode = httpConn.getResponseCode();
+			if (responseCode==200) {
+				 in = new BufferedReader(new InputStreamReader(httpConn.getInputStream()));
+			}else
+				 in = new BufferedReader(new InputStreamReader(httpConn.getErrorStream()));
+		    String inputLine;
+		    StringBuffer res=new StringBuffer();
+		    while ( (inputLine = in.readLine()) !=null  ) {
+		    	res.append(inputLine);
+		    }
+		    
+		  in.close();
+		  return (res.toString());
+			} catch (IOException e) {
+				System.err.println(e);
+				return null;
+			}
+	  }
 	public String getJson(String s) {
 		  String sURL = s; //just a string
 
