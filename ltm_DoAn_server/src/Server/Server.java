@@ -119,7 +119,7 @@ public class Server {
 						}
 						if(choose.equals("tracuuthanhpho")) {
 								String a= transport.receive(in);
-								System.out.print(a);
+								
 								transport.send(output, wt.getWeather(a));
 						}
 		//						sendToClient(out, lstCountry.getListName());//trả về dãy string ngăn cách bởi dấu ,
