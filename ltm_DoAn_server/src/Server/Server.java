@@ -97,8 +97,19 @@ public class Server {
 								String time = transport.receive(in);
 								String name = ls.getInfoByID(i).getTenQuocGia();
 								String line = getCovidInfo(ls.getInfoByID(i).getTenQuocGia(),time);
+<<<<<<< Updated upstream
 								transport.send(out,line );
 								transport.send(out, getTotalCovidInfo(name));
+=======
+								//kq
+								transport.send(out,line );
+								
+								System.out.println(transport.receive(in));
+								transport.send(out, "hihi");
+								//kq2
+								transport.send(out, getTotalCovidInfo(name));
+								//kq3
+>>>>>>> Stashed changes
 								transport.send(out,getCovidMax());
 						//=============================================
 								transport.send(output, ls.getInfoByID(i));
@@ -161,10 +172,17 @@ public class Server {
 		String[]times = time.split(";");
 		String time1=times[0];
 		String time2=times[1];
+<<<<<<< Updated upstream
 		tmp.getLstCovid(ten, time1,time2);
 		int m1=0,m2=0,m3=0;
 		for (Covid i : CovidInfo.lstCovid) {
 			if(i.getThoiGian().compareTo(time1.toString())>0) {
+=======
+		tmp.getLstCovid(ten, time1,time1);
+		int m1=0,m2=0,m3=0,m4=0,m5=0,m6=0;
+		for (Covid i : CovidInfo.lstCovid) {
+			if(i.getThoiGian().compareTo(time1.toString())>=0) {
+>>>>>>> Stashed changes
 				if(m1<i.getCaNhiem())		
 				m1= i.getCaNhiem();
 				if(m2<i.getKhoiBenh())
@@ -173,7 +191,23 @@ public class Server {
 				m3=i.getChet();
 				}
 			}
+<<<<<<< Updated upstream
 		String str = ten+";"+m1+";"+m2+";"+m3;
+=======
+		tmp.getLstCovid(ten, time2,time2);
+		for (Covid i : CovidInfo.lstCovid) {
+			if(i.getThoiGian().compareTo(time2.toString())<=0) {
+				if(m4<i.getCaNhiem())		
+				m4= i.getCaNhiem();
+				if(m5<i.getKhoiBenh())
+				m5=i.getKhoiBenh();
+				if(m6<i.getChet())		
+				m6=i.getChet();
+				}
+			}
+		int x =m4-m1,y=m5-2,z=m6-m3;
+		String str = ten+";"+x+";"+y+";"+z;
+>>>>>>> Stashed changes
 		return str;
 		}
 	public String getTotalCovidInfo(String quocgia) {
