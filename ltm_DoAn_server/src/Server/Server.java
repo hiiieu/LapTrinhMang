@@ -167,39 +167,30 @@ public class Server {
 		String[]times = time.split(";");
 		String time1=times[0];
 		String time2=times[1];
-		int x=0,y=0,z=0;
-int a=0,b=0,c=0;
-		tmp.getLstCovid(ten, time1,time2);
+		tmp.getLstCovid(ten, time1,time1);
 		int m1=0,m2=0,m3=0,m4=0,m5=0,m6=0;
 		for (Covid i : CovidInfo.lstCovid) {
-			a=i.getCaNhiem();
-			b=i.getKhoiBenh();
-			c=i.getChet();
-		}
-		
-		for (Covid i : CovidInfo.lstCovid) {
-
-			if(i.getThoiGian().compareTo(time1.toString())>=0&&i.getThoiGian().compareTo(time2.toString())<=0) {
-				//if(m1<i.getCaNhiem())		
+			if(i.getThoiGian().compareTo(time1.toString())>=0) {
+				if(m1<i.getCaNhiem())		
 				m1= i.getCaNhiem();
-				//if(m2<i.getKhoiBenh())
+				if(m2<i.getKhoiBenh())
 				m2=i.getKhoiBenh();
-				//if(m3<i.getChet())		
+				if(m3<i.getChet())		
 				m3=i.getChet();
 				}
-				x+= m1-m4;
-				y+= m2-m5;
-				z+= m3-m6;
-
-				//System.out.println(m1+" "+m2+" "+m3+" "+m4+" "+m5+" "+m6+" "+x+" "+y+" "+z+" "+a+" "+b+" "+c);
-			
-				m4=m1;m5=m2;m6=m3;
-
 			}
-		
-		x=x-a;
-		y=y-b;
-		z=z-c;
+		tmp.getLstCovid(ten, time2,time2);
+		for (Covid i : CovidInfo.lstCovid) {
+			if(i.getThoiGian().compareTo(time2.toString())<=0) {
+				if(m4<i.getCaNhiem())		
+				m4= i.getCaNhiem();
+				if(m5<i.getKhoiBenh())
+				m5=i.getKhoiBenh();
+				if(m6<i.getChet())		
+				m6=i.getChet();
+				}
+			}
+		int x =m4-m1,y=m5-2,z=m6-m3;
 		String str = ten+";"+x+";"+y+";"+z;
 		return str;
 		}
