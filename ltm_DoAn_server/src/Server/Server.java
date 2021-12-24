@@ -14,6 +14,7 @@ import java.io.OutputStreamWriter;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.StringTokenizer;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -21,7 +22,10 @@ import java.util.concurrent.ThreadPoolExecutor;
 import javax.swing.JOptionPane;
 
 import DTO.Country;
+import DTO.Covid;
 import DTO.SinhVien;
+import FetchInfo.CovidInfo;
+import FetchInfo.CovidMaxinfo;
 import FetchInfo.ListCity;
 import FetchInfo.ListCountry;
 import FetchInfo.WeatherInfo;
@@ -74,6 +78,7 @@ public class Server {
 						String choose = transport.receive(in);
 						ListCountry ls = new ListCountry();
 						ListCity lsc=new ListCity();
+						
 						WeatherInfo wt=new WeatherInfo();
 						if(choose.equals("Menuclose")) {
 								System.out.println("client đã thoát");
@@ -87,7 +92,17 @@ public class Server {
 						if(choose.equals("Search")) {
 								int i = 0;							
 								i= Integer.parseInt(transport.receive(in));
+								
+						//=============================================
+								String time = transport.receive(in);
+								String name = ls.getInfoByID(i).getTenQuocGia();
+								String line = getCovidInfo(ls.getInfoByID(i).getTenQuocGia(),time);
+								transport.send(out,line );
+								transport.send(out, getTotalCovidInfo(name));
+								transport.send(out,getCovidMax());
+						//=============================================
 								transport.send(output, ls.getInfoByID(i));
+								
 						}
 						
 						if (choose.equals("nation")) {
@@ -140,6 +155,40 @@ public class Server {
 			}
 	 	}
 }
+
+	public String getCovidInfo(String ten,String time) {
+		CovidInfo tmp = new CovidInfo();
+		String[]times = time.split(";");
+		String time1=times[0];
+		String time2=times[1];
+		tmp.getLstCovid(ten, time1,time2);
+		int m1=0,m2=0,m3=0;
+		for (Covid i : CovidInfo.lstCovid) {
+			if(i.getThoiGian().compareTo(time1.toString())>0) {
+				if(m1<i.getCaNhiem())		
+				m1= i.getCaNhiem();
+				if(m2<i.getKhoiBenh())
+				m2=i.getKhoiBenh();
+				if(m3<i.getChet())		
+				m3=i.getChet();
+				}
+			}
+		String str = ten+";"+m1+";"+m2+";"+m3;
+		return str;
+		}
+	public String getTotalCovidInfo(String quocgia) {
+		CovidInfo c = new CovidInfo();
+		
+		return c.getMax(quocgia);
+	}
+	
+	public String getCovidMax() {
+		CovidMaxinfo max = new CovidMaxinfo();
+		max.getListmax();
+		String kq =max.canhiemmax()+";"+max.cachetmmax();
+		return kq;
+	}
+	
 	
 	//tạo server đợi client
 	public Server(int port) {

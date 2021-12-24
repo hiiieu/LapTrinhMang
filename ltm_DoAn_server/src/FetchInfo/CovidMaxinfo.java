@@ -44,7 +44,7 @@ public class CovidMaxinfo {
 		return lstMaxcovid.get(id);
 	}
 	
-	public void canhiemmax() {
+	public String canhiemmax() {
 		String ten ="";
 		int canhiemlon=0;
 		for(MaxCovid i: lstMaxcovid) {
@@ -53,10 +53,10 @@ public class CovidMaxinfo {
 				canhiemlon=i.getCanhiemmax();
 			}
 		}
-		System.out.println("quốc gia: "+ten+"\nCó số ca nhiễm lớn nhất là: "+canhiemlon);
+		return ten+";"+canhiemlon;
 	}
 	
-	public void cachetmmax() {
+	public String cachetmmax() {
 		String ten ="";
 		int chetlon=0;
 		for(MaxCovid i: lstMaxcovid) {
@@ -66,9 +66,10 @@ public class CovidMaxinfo {
 			}
 		}
 		System.out.println("\nquốc gia: "+ten+"\nCó số người chết lớn nhất là: "+chetlon);
+		return ten+";"+chetlon;
 	}
 	
-	public void khoibenhmmax() {
+	public String khoibenhmmax() {
 		String ten ="";
 		int khoibenhlon=0;
 		for(MaxCovid i: lstMaxcovid) {
@@ -77,7 +78,8 @@ public class CovidMaxinfo {
 				khoibenhlon=i.getKhoibenhmax();
 			}
 		}
-		System.out.println("\nquốc gia: "+ten+"\nCó số người khỏi bênh nhiều nhất là: "+khoibenhlon);
+		String kq = ten+";"+khoibenhlon;
+		return ten+";"+khoibenhlon;
 	}
 	
 	public static void main(String[] arg) {

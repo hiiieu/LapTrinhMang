@@ -7,6 +7,8 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,9 +22,10 @@ public class CovidInfo {
 		public static ArrayList<Covid> lstCovid= new ArrayList<Covid>();
 		
 		//lấy json đổ dữ liệu vào lstCovid
-		public void getLstCovid(String quocgia, String time ) {	
-			String apiCovidInfo="https://api.covid19api.com/live/country/"+quocgia+"/status/confirmed/date/"+time;
-			JSONArray jsonLstCovid = new JSONArray(getJson(replaceSpace(apiCovidInfo)));
+		public void getLstCovid(String quocgia, String time1,String time2 ) {	
+			//String apiCovidInfo="https://api.covid19api.com/live/country/"+quocgia+"/status/confirmed/date/"+time1;
+			String apiLink = "https://api.covid19api.com/country/"+quocgia+"?from="+time1+"T00:00:00Z&to="+time2+"T00:00:00Z";
+			JSONArray jsonLstCovid = new JSONArray(getJson(replaceSpace(apiLink)));
 			
 			//loop to get all json objects from data json array
 			for(Object obj:jsonLstCovid) {
@@ -56,20 +59,65 @@ public class CovidInfo {
 		}
 		
 		public static void main(String[] args) {			
-			LocalDate dates = LocalDate.of(2021, 12, 06);
+			LocalDate date1 = LocalDate.of(2020, 1, 1);
+			LocalDate date2 = LocalDate.of(2021, 12, 24);
 			//api chỉ lấy ngày kế tiếp nên phải giảm xuống 1 ngày so với ngày nhập
-			String strdates = dates.minusDays(1).toString();
+			//String strdate1 = date1.minusDays(1).toString();
+			//String strdate2 = date2.minusDays(1).toString();
 			String quocgia="viet nam";
 			CovidInfo ls= new CovidInfo();
-			System.out.println(strdates);
-			ls.getLstCovid(quocgia, strdates);
+			System.out.println(date1);
+			System.out.println(date2);
+			ls.getLstCovid(quocgia, date1.toString(),date2.toString());
+			int m1=0,m2=0,m3=0;
 			for (Covid i : lstCovid) {
-				if(i.getThoiGian().contains(dates.toString())) {
-					System.out.println(i.getQuocGia()+"\nThời gian: "+i.getThoiGian()+"\nTổng số ca nhiễm: "+i.getCaNhiem()+"\nTổng số ca khỏi bệnh: "+i.getKhoiBenh()+"\nTổng số ca chết: "
-							+i.getChet()+"\n");
+				if(i.getThoiGian().compareTo(date1.toString())>0) {
+					if(m1<i.getCaNhiem())		
+					m1= i.getCaNhiem();
+					if(m2<i.getKhoiBenh())
+					m2=i.getKhoiBenh();
+					if(m3<i.getChet())		
+					m3=i.getChet();
 				}
+			
 				
 			}
+			System.out.println("Tu ngay : "+date1+" Den ngay: "+date2);
+			System.out.println(quocgia+": so ca nhiem :"+m1+" so ca khoi benh: "+m2+" so ca chet: "+m3);
+		}
+		public String getMax(String quocgia) {
+			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");  
+			LocalDateTime now = LocalDateTime.now();
+			String time1= "2020-01-01";
+			String time2=now.toString();
+			String apiLink = "https://api.covid19api.com/country/"+quocgia+"?from="+time1+"T00:00:00Z&to="+time2+"T00:00:00Z";
+			JSONArray jsonLstCovid = new JSONArray(getJson(replaceSpace(apiLink)));
+			int max1=0,max2=0,max3=0;
+			//loop to get all json objects from data json array
+			for(Object obj:jsonLstCovid) {
+				JSONObject jobj=(JSONObject) obj;
+				String ten ="";
+				int canhiem = 0;
+				int khoibenh = 0;
+				int chet = 0;
+				String thoigian ="";
+				
+				//tổng số ca nhiễm
+				canhiem = jobj.getInt("Confirmed");
+				if(canhiem>max1)
+				max1=canhiem;
+				//tổng số ca khỏi bệnh
+				khoibenh = jobj.getInt("Recovered");
+				if(khoibenh >max2)
+				max2=khoibenh;
+				//tổng số ca chết
+				chet = jobj.getInt("Deaths");
+				if(chet>max3)
+				max3=chet;
+				
+
+			}		
+			return max1+";"+max2+";"+max3;
 		}
 		public String getJson(String s) {
 			  String sURL = s; //just a string
