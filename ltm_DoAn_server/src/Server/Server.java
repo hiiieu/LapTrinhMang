@@ -190,7 +190,10 @@ public class Server {
 				m6=i.getChet();
 				}
 			}
-		int x =-(m4-m1),y=m5-m2,z=-(m6-m3);
+		int x =m4-m1,y=m5-m2,z=m6-m3;
+		x=Math.abs(x);
+		y=Math.abs(y);
+		z=Math.abs(z);
 		String str = ten+";"+x+";"+y+";"+z;
 		return str;
 		}
